@@ -1,9 +1,9 @@
 /* eslint-disable semi */
 /* eslint-disable prettier/prettier */
 
-export const fetchHouseChores = (chores) => {
+export const fetchHouseChores = (data) => {
     return {
         type: 'FETCH_CHORES',
-        chores: chores.chores,
+        chores: data.house.chores,
     }
 }

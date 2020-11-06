@@ -15,7 +15,7 @@ const ListChores = (props) => {
     const navigation = useNavigation();
     return (
                 <View>
-                { chores.length > 1 ? (
+                { chores.length >= 1 ? (
                     <FlatList
                     data={chores}
                     renderItem = {(chore) => <Chore chore={chore} navigation={navigation} />}
@@ -41,6 +41,7 @@ const Chore = (props) => {
     const { chore, navigation } = props
     const {title, description, points, img, id } = chore.item.chore
     const { user } = chore.item
+    console.log(user)
     const sprintChoreId = chore.item.id
     console.log(sprintChoreId)
     const profileImg = 'https://freesvg.org/img/abstract-user-flat-4.png'
@@ -63,12 +64,12 @@ const Chore = (props) => {
         <View>
             <SafeAreaView style={styles.viewChore}>
                 <TouchableOpacity style={styles.userImage} onPress = {()=> goToUserProfile()}>
-                    <Image style ={styles.img}
+                    <Image style={styles.img}
                     resizeMode= 'cover'
                     PlaceholderContent = {<ActivityIndicator color = '#fff' />}
                     source={
                         user.img
-                        ? {uri: img}
+                        ? {uri: user.img}
                         : {uri: profileImg}
                     }
                     />

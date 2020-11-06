@@ -21,50 +21,90 @@ class HomeFeed extends Component {
     }
 
     componentDidMount(){
-          fetch(`http://localhost:3000/houses/1`)
+          fetch(`http://localhost:3000/users/174`)
           .then(resp => resp.json())
           .then(data => {
             this.props.fetchChores(data)
-            this.props.roomies(data)
             this.props.sprint(data)
             this.props.user(data)
             this.props.house(data)
+            this.props.roomies(data)
+     
+            
         })
-        .then(() => fetch(`http://localhost:3000/sprint_chores`))
+        .then(() => fetch(`http://localhost:3000/houses/${this.props.houseState.id}`))
         .then(response => response.json())
         .then(data => {
             let house = this.props.houseState.id
             let sprint = this.props.sprintState.id
-            this.props.sprintChores(data, house, sprint)
+            this.props.sprintChores(data, sprint)
+
         })
     }
 
 
      goToHome = () => {
         console.log('GOING HOME!!!!')
+        
     }
 
+
     render() {
-        console.log(this.props)
-      return (
-          <View>
-            <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
-                <Image style ={styles.img}
-                PlaceholderContent = {<ActivityIndicator color = '#fff' />}
-                source={
-                    this.props.houseState.img
-                    ? {uri: this.props.houseState.img}
-                    : {uri: '' }
-                }
-                />
-            </TouchableOpacity>
-              { !this.props.sprintState.completion_status && this.props.sprintState.begin_date ?
-                <ListChores chores={this.props.sprintChoresState}/>
-                :
-                <Text>Start sprint!!!</Text>
-              }
-          </View>
-      );
+
+        if (!this.props.sprintState.completion_status && this.props.sprintState.active && this.props.sprintState.approval ) {
+            return (
+                <View>
+                    <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
+                        <Image style ={styles.img}
+                        PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                        source={
+                            this.props.houseState.img
+                            ? {uri: this.props.houseState.img}
+                            : {uri: '' }
+                        }
+                        />
+                    </TouchableOpacity>
+                    <ListChores chores={this.props.sprintChoresState}/>
+                </View>
+            )
+        } else if (this.props.userState.admin) {
+            return (
+                <View>
+                    <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
+                        <Image style ={styles.img}
+                        PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                        source={
+                            this.props.houseState.img
+                            ? {uri: this.props.houseState.img}
+                            : {uri: '' }
+                        }
+                        />
+                    </TouchableOpacity>
+                    <View>
+                        <Text>Start new sprint in sprint page!!!</Text>
+                    </View>
+                </View>
+            )
+           
+        } else {
+            return (
+                <View>
+                    <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
+                        <Image style ={styles.img}
+                        PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                        source={
+                            this.props.houseState.img
+                            ? {uri: this.props.houseState.img}
+                            : {uri: '' }
+                        }
+                        />
+                    </TouchableOpacity>
+                    <View>
+                        <Text>Ask admin to start new sprint !</Text>
+                    </View>
+                </View>
+            )
+        }
     }
   }
 

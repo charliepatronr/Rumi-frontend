@@ -4,6 +4,6 @@
 export const fetchRoomies = (data) => {
     return {
         type: 'FETCH_ROOMIES',
-        roomies: data.users,
+        roomies: data.house.users,
     }
 }

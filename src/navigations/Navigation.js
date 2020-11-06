@@ -22,7 +22,7 @@ export default function Navigation () {
                 tabBarIcon: ({color}) => screenOptions(route, color)
             })}
             >
-                <Tab.Screen name="home" component={HomeStack} options={{title: 'Home'}}/>
+                <Tab.Screen name="home" component={HomeStack} options={{title: 'House'}}/>
                 <Tab.Screen name= "sprint-feed" component={SprintStack} options={{title: 'Sprint'}} />
                 <Tab.Screen name= "profile" component={ProfileStack} options ={{title: 'Profile'}} />
             </Tab.Navigator>

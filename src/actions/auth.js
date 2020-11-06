@@ -19,6 +19,6 @@ export const logoutSuccess = () => {
 export const currentUser = (data) => {
     return {
         type: 'CURRENT_USER',
-        user: data.users[4],
+        user: data,
     }
 } 

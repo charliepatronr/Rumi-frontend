@@ -1,6 +1,8 @@
 /* eslint-disable semi */
 /* eslint-disable prettier/prettier */
 
+import { endSprint } from "../actions/fetchSprint"
+
 const sprintReducer = (state = {}, action) => {
     switch (action.type){
         case 'FETCH_SPRINT':
@@ -16,26 +18,24 @@ const sprintReducer = (state = {}, action) => {
             return currentSprint[0]
 
         case 'START_SPRINT':
-            let d = new Date()
-            let date = d.getDate()
-            let month = d.getMonth()
-            let year = d.getFullYear() 
-            let dateStr = `${year}-${month}-${date}`
+            const {id, house_id, begin_date, end_date, completion_status, active} = action.sprint
+            let sprint = {
+                id: id, 
+                house_id: house_id,
+                begin_date: begin_date, 
+                end_date: end_date, 
+                completion_status: completion_status, 
+                active: active
+            }
             return {
-                ...state,
-                begin_date: dateStr,
+                ...sprint
             }
 
         case 'END_SPRINT':
-             d = new Date()
-             date = d.getDate()
-             month = d.getMonth()
-             year = d.getFullYear() 
-             dateStr = `${year}-${month}-${date}`
             return {
                 ...state,
-                end_date: dateStr,
-                completion_status: true,
+                end_date: action.sprint.end_date,
+                completion_status: action.sprint.completion_status,
             }
         default:
             return state

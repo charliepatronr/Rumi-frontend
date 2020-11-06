@@ -17,47 +17,51 @@ class Profile extends React.Component {
         }
     }
 
-    componentDidMount() {
-        console.log('MOUNTING ALSKDALSKDJLKASJDLKAJD!!!!!!!!!!!!!!!!!!')
-        fetch(`http://localhost:3000/users/${this.props.user.id}`)
-        .then(response => response.json())
-        .then(response => {
-            let sprintChores = response.sprint_chores.filter( chore => chore.sprint_id === this.props.sprint.id)
-            this.setState({
-                chores: sprintChores
-            })
-        });
-    }
+    // componentDidMount() {
+    //     fetch(`http://localhost:3000/users/${this.props.user.id}`)
+    //     .then(response => response.json())
+    //     .then(response => {
+    //         let sprintChores = response.sprint_chores.filter( chore => chore.sprint_id === this.props.sprint.id)
+    //         this.setState({
+    //             chores: sprintChores
+    //         })
+    //     });
+    // }
 
     getChores = () => {
-        let finalChores = this.state.chores.map(chore => {
-            return this.props.chores.filter(houseChore => houseChore.id === chore.id)
-        })
+        // let finalChores = this.state.chores.map(chore => {
+        //     return this.props.chores.filter(houseChore => houseChore.id === chore.id)
+        // })
+        // console.log(finalChores)
+        let finalChores = this.props.sprintChores.filter(sprintChore => sprintChore.user.id === this.props.user.id)
         console.log(finalChores)
-       return finalChores
+        let returnChores = finalChores.map(sprintChore => sprintChore.chore)
+        console.log(returnChores, ' FINAL CHORES FOR CHORE LIST !!!!!!')
+
+       return returnChores
+
     }
 
     completionStatus = () => {
         let count  = 0;
-        if(this.state.chores) {
-            this.state.chores.map(chore =>{
-                console.log(chore)
+        let myChores = this.getChores()
+
+        if(myChores.length  >= 1) {
+            myChores.map(chore =>{
                if(chore.completion_status) {
                    count +=1
                }
             })
-        }
         let percentage = count / this.props.chores.length
         return percentage
+        }
     }
 
     render(){
-        console.log(this.state)
-        console.log(this.props.user)
-        console.log(this.props.user.id)
+        
         const { navigation } = this.props
   
-
+        const myChores = this.getChores()
         navigation.setOptions({
             title: 'Profile',
         })
@@ -66,46 +70,121 @@ class Profile extends React.Component {
             return <Loading isVisible = {true} text= 'LOADING'/>
         }
 
-        return (
-            <View styles={styles.viewRoomie}>
-                <UserInfo user={this.props.user} />
-                <View style={styles.completionBar}>
-                    <AnimatedCircularProgress
-                        size={150}
-                        width={15}
-                        fill={ this.completionStatus() }
-                        tintColor="#00e0ff"
-                        onAnimationComplete={() => console.log('onAnimationComplete')}
-                        backgroundColor="#3d5875">
-                        {
-                            (fill) => (
-                            <Text>
-                                {this.completionStatus() }% of Tasks 
-                            </Text>
+        if  (!this.props.sprint.completion_status && this.props.sprint.active) {
+            return (
+                <View styles={styles.viewRoomie}>
+                    <UserInfo user={this.props.user} />
+                    <View style={styles.completionBar}>
+                        <AnimatedCircularProgress
+                            size={150}
+                            width={15}
+                            fill={ this.completionStatus() }
+                            tintColor="#00e0ff"
+                            onAnimationComplete={() => console.log('onAnimationComplete')}
+                            backgroundColor="#3d5875">
+                            {
+                                (fill) => (
+                                <Text>
+                                    {this.completionStatus() }% of Tasks 
+                                </Text>
+                                )
+                            } 
+                        </AnimatedCircularProgress>
+                    </View>
+                    <View styles={styles.assigned}>
+                        <Text >Assigned tasks this sprint</Text>
+                    </View>
+                    <View >
+                        { myChores.length >= 1 ? (
+                            <FlatList 
+                            data={myChores}
+                            renderItem = {(chore) => <Chore chore={chore} />}
+                            keyExtractor = {(item, index) => index.toString()}
+                            />
+                        ) : (
+                            <View style={styles.loader}>
+                                <ActivityIndicator size= 'large'/>
+                                <Text>Loading...</Text>
+                            </View>
                             )
-                        } 
-                    </AnimatedCircularProgress>
+                        }
+                    </View>
                 </View>
-                <View styles={styles.assigned}>
-                    <Text >Assigned tasks this sprint</Text>
-                </View>
-                <View >
-                    { this.state.chores ? (
-                        <FlatList 
-                        data={this.getChores()}
-                        renderItem = {(chore) => <Chore chore={chore} />}
-                        keyExtractor = {(item, index) => index.toString()}
-                        />
-                    ) : (
-                        <View style={styles.loader}>
-                            <ActivityIndicator size= 'large'/>
-                            <Text>Loading...</Text>
+
+            )
+
+        } else if (!this.props.sprint.active && this.props.sprint.begin_date) {
+                return (
+                    <View styles={styles.viewRoomie}>
+                        <UserInfo user={this.props.user} />
+                        <View style={styles.completionBar}>
+                            <AnimatedCircularProgress
+                                size={150}
+                                width={15}
+                                fill={ this.completionStatus() }
+                                tintColor="#00e0ff"
+                                onAnimationComplete={() => console.log('onAnimationComplete')}
+                                backgroundColor="#3d5875">
+                                {
+                                    (fill) => (
+                                    <Text>
+                                        {this.completionStatus() }% of Tasks 
+                                    </Text>
+                                    )
+                                } 
+                            </AnimatedCircularProgress>
                         </View>
-                        )
-                    }
+                        <View styles={styles.assigned}>
+                            <Text >Tentative sprint assignment</Text>
+                        </View>
+                        <View >
+                            { myChores.length >= 1 ? (
+                                <FlatList 
+                                data={myChores}
+                                renderItem = {(chore) => <Chore chore={chore} />}
+                                keyExtractor = {(item, index) => index.toString()}
+                                />
+                            ) : (
+                                <View style={styles.loader}>
+                                    <ActivityIndicator size= 'large'/>
+                                    <Text>Loading...</Text>
+                                </View>
+                                )
+                            }
+                        </View>
+                    </View>
+                )
+            } else {
+                return (
+                    <View styles={styles.viewRoomie}>
+                    <UserInfo user={this.props.user} />
+                    <View style={styles.completionBar}>
+                    <Text >Previous sprint completion</Text>
+                        <AnimatedCircularProgress
+                            size={150}
+                            width={15}
+                            fill={ this.completionStatus() }
+                            tintColor="#00e0ff"
+                            onAnimationComplete={() => console.log('onAnimationComplete')}
+                            backgroundColor="#3d5875">
+                            {
+                                (fill) => (
+                                <Text>
+                                    {this.completionStatus() }% of Tasks 
+                                </Text>
+                                )
+                            } 
+                        </AnimatedCircularProgress>
+                    </View>
+                    <View styles={styles.assigned}>
+                       
+                    </View>
                 </View>
-            </View>
-        )
+
+                )
+
+
+            }
 
     }
 
@@ -116,7 +195,8 @@ const mapStateToProps = (state) => {
         house: state.house, 
         sprint: state.sprint, 
         chores: state.chores, 
-        user: state.auth
+        user: state.auth,
+        sprintChores: state.sprintChores
     }
 }
 
@@ -125,7 +205,7 @@ export default connect(mapStateToProps, null)(Profile)
 
 const Chore = (props) => {
     const { chore } = props
-    const {title, description, points, img, id } = chore.item[0]
+    const {title, description, points, img, id } = chore.item
 
     return (
         <View>

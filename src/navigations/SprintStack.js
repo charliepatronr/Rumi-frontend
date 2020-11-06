@@ -3,6 +3,8 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import Sprint from '../components/SprintFeed'
+import Chore from '../components/Chore';
+import Roomie from '../components/Roomie'
 
 
 const Stack = createStackNavigator();
@@ -14,6 +16,14 @@ export default function SprintStack(){
             name = 'sprint'
             component= {Sprint}
             options = {{title: 'Sprint'}}
+            />
+            <Stack.Screen
+            name='chore'
+            component={Chore}
+            />
+            <Stack.Screen 
+            name='roomie-profile'
+            component={Roomie}
             />
         </Stack.Navigator>
     )

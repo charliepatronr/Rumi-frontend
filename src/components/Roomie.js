@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { Text, View, StyleSheet, SafeAreaView, TouchableHighlightBase, ActivityIndicator, Image, FlatList, TouchableOpacity} from 'react-native';
 import Loading from './Loading'
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { Button } from '@shoutem/ui';
 
 
 class Roomie extends React.Component {
@@ -31,10 +32,12 @@ class Roomie extends React.Component {
     }
 
     getChores = () => {
+        // let finalChores = this.state.chores.map(chore => {
+        //     return this.props.chores.filter(houseChore => houseChore.id === chore.id)
+        // })
         let finalChores = this.state.chores.map(chore => {
-            return this.props.chores.filter(houseChore => houseChore.id === chore.id)
+            return chore.chore
         })
-        console.log(finalChores)
        return finalChores
     }
 
@@ -42,7 +45,6 @@ class Roomie extends React.Component {
         let count  = 0;
         if(this.state.chores) {
             this.state.chores.map(chore =>{
-                console.log(chore)
                if(chore.completion_status) {
                    count +=1
                }
@@ -55,7 +57,6 @@ class Roomie extends React.Component {
     render(){
         const { navigation, route } = this.props
         const { id } = route.params;
-        console.log(this.state)
 
         navigation.setOptions({
             title: 'Roomie',
@@ -160,10 +161,10 @@ const RoomieInfo = (props) => {
 } 
 
 const Chore = (props) => {
-    console.log(props.chore)
+
     const { chore } = props
-    const {title, description, points, img, id } = chore.item[0]
-    console.log(title)
+    console.log(chore, 'CHORE !!!!!!!!!!!')
+    const {title, description, points, img, id } = chore.item
 
     return (
         <View>

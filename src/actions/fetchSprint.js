@@ -4,15 +4,29 @@
 export const fetchSprint = (data) => {
     return {
         type: 'FETCH_SPRINT',
-        sprint: data.sprints,
+        sprint: data.house.sprints,
     }
 }
 
-export const fetchSprintChores = (data, house, sprint) => {
+export const fetchSprintChores = (data, sprint) => {
     return {
         type: 'FETCH_SPRINT_CHORES',
-        sprintChores: data,
+        sprintChores: data.sprint_chores,
         sprintId: sprint,
-        houseId: house,
+    }
+}
+
+export const endSprint = (data) => {
+    return {
+        type: 'END_SPRINT',
+        sprint: data
+    }
+}
+
+export const startSprint = (data) => {
+    return {
+        type: 'START_SPRINT',
+        tempSprintChores: data,
+        sprint: data[0].sprint
     }
 }

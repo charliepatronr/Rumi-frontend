@@ -4,7 +4,7 @@
 const roomiesReducer = (state = [], action) => {
     switch (action.type){
         case 'FETCH_ROOMIES':
-            // console.log(action.roomies)
+            console.log(action.roomies)
             return [...action.roomies]
         case 'ADD_ROOMIE':
             return [...state, action.newRoomie]

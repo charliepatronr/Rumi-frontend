@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import { Text, View, StyleSheet, SafeAreaView, TouchableHighlightBase, ActivityIndicator, Image, FlatList, TouchableOpacity} from 'react-native';
 import Loading from './Loading'
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { Button } from '@shoutem/ui';
 
 
 class Roomie extends React.Component {
@@ -44,17 +43,24 @@ class Roomie extends React.Component {
     completionStatus = () => {
         let count  = 0;
         if(this.state.chores) {
+            console.log(this.state.chores)
             this.state.chores.map(chore =>{
                if(chore.completion_status) {
                    count +=1
                }
             })
         }
-        let percentage = count / this.props.chores.length
+        if(this.state.chores) {
+        let percentage = ( count / this.state.chores.length ) * 100
+        percentage = Math.round(percentage * 100) / 100
         return percentage
+        }
+        
+        
     }
 
     render(){
+        let percentage = this.completionStatus()
         const { navigation, route } = this.props
         const { id } = route.params;
 
@@ -73,14 +79,14 @@ class Roomie extends React.Component {
                     <AnimatedCircularProgress
                         size={150}
                         width={15}
-                        fill={ this.completionStatus() }
+                        fill={ percentage }
                         tintColor="#00e0ff"
                         onAnimationComplete={() => console.log('onAnimationComplete')}
                         backgroundColor="#3d5875">
                         {
                             (fill) => (
                             <Text>
-                                {this.completionStatus() }% of Tasks 
+                                {percentage }% of Tasks 
                             </Text>
                             )
                         } 
@@ -163,7 +169,6 @@ const RoomieInfo = (props) => {
 const Chore = (props) => {
 
     const { chore } = props
-    console.log(chore, 'CHORE !!!!!!!!!!!')
     const {title, description, points, img, id } = chore.item
 
     return (

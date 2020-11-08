@@ -30,3 +30,11 @@ export const startSprint = (data) => {
         sprint: data[0].sprint
     }
 }
+
+export const updateSprint = (data) => {
+    return {
+        type: 'UPDATE_SPRINT', 
+        tempSprintChores: data,
+        sprint: data[0].sprint
+    }
+}

@@ -4,12 +4,14 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Text, View, StyleSheet, SafeAreaView, ActivityIndicator, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, SafeAreaView, ActivityIndicator, TouchableOpacity, Image} from 'react-native';
 import {fetchHouseChores } from '../actions/fetchChoresAction'
 import { fetchRoomies } from '../actions/fetchRoomies'
 import { fetchSprint, fetchSprintChores } from '../actions/fetchSprint'
 import { fetchHouseInfo } from '../actions/fetchHouse';
 import { currentUser } from '../actions/auth';
+import { Button, View, Text} from '@shoutem/ui';
+import {Icon} from 'react-native-elements'
 
 import ListChores from './ListChores'
 
@@ -21,7 +23,7 @@ class HomeFeed extends Component {
     }
 
     componentDidMount(){
-          fetch(`http://localhost:3000/users/174`)
+          fetch(`http://localhost:3000/users/188`)
           .then(resp => resp.json())
           .then(data => {
             this.props.fetchChores(data)
@@ -54,16 +56,18 @@ class HomeFeed extends Component {
         if (!this.props.sprintState.completion_status && this.props.sprintState.active && this.props.sprintState.approval ) {
             return (
                 <View>
-                    <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
-                        <Image style ={styles.img}
-                        PlaceholderContent = {<ActivityIndicator color = '#fff' />}
-                        source={
-                            this.props.houseState.img
-                            ? {uri: this.props.houseState.img}
-                            : {uri: '' }
-                        }
-                        />
-                    </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
+                            <Image style ={styles.img}
+                            PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                            source={
+                                this.props.houseState.img
+                                ? {uri: this.props.houseState.img}
+                                : {uri: '' }
+                            }
+                            />
+                        </TouchableOpacity>
+                    </View>
                     <ListChores chores={this.props.sprintChoresState}/>
                 </View>
             )

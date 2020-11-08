@@ -41,9 +41,7 @@ const Chore = (props) => {
     const { chore, navigation } = props
     const {title, description, points, img, id } = chore.item.chore
     const { user } = chore.item
-    console.log(user)
     const sprintChoreId = chore.item.id
-    console.log(sprintChoreId)
     const profileImg = 'https://freesvg.org/img/abstract-user-flat-4.png'
 
 

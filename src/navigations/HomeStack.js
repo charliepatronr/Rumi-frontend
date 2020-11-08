@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeFeed from '../components/HomeFeed';
 import Chore from '../components/Chore';
 import Roomie from '../components/Roomie'
+import { Button, View, Text} from '@shoutem/ui';
 
 
 const Stack = createStackNavigator();
@@ -15,7 +16,15 @@ export default function HomeFeedStack(){
             <Stack.Screen
             name = 'home-feed'
             component= {HomeFeed}
-            options = {{title: 'Home'}}
+            options = {{
+                headerTitle: () => <Text>HOME</Text>,
+                headerRight: () => (
+                    <Button
+                      onPress={() => alert('This is a button!')}
+                      color="#fff"
+                    ><Text>Hello</Text></Button>)
+            }}
+      
             />
             <Stack.Screen
             name='chore'

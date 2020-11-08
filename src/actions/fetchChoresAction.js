@@ -7,3 +7,10 @@ export const fetchHouseChores = (data) => {
         chores: data.house.chores,
     }
 }
+
+export const completeTask = (data) => {
+    return {
+        type: 'COMPLETE_TASK', 
+        chore: data
+    }
+}

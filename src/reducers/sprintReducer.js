@@ -14,18 +14,30 @@ const sprintReducer = (state = {}, action) => {
                 }
             })
             let currentSprint = action.sprint.filter(sprint => sprint.id === counter)
-            // console.log(currentSprint)
+            console.log(currentSprint)
             return currentSprint[0]
 
         case 'START_SPRINT':
-            const {id, house_id, begin_date, end_date, completion_status, active} = action.sprint
+            const {id, house_id, begin_date, end_date, completion_status, active, approval} = action.sprint
+
             let sprint = {
                 id: id, 
                 house_id: house_id,
                 begin_date: begin_date, 
                 end_date: end_date, 
                 completion_status: completion_status, 
-                active: active
+                active: active, 
+                approval: approval
+            }
+            if (sprint.approval) {
+
+            let d = new Date()
+            let date = d.getDate()
+            let month = d.getMonth()
+            let year = d.getFullYear() 
+            let dateStr = `${year}-${month}-${date}`
+
+                sprint.begin_date = dateStr
             }
             return {
                 ...sprint
@@ -37,6 +49,21 @@ const sprintReducer = (state = {}, action) => {
                 end_date: action.sprint.end_date,
                 completion_status: action.sprint.completion_status,
             }
+
+        // case 'UPDATE_SPRINT':
+        //     const { id, house_id, begin_date, end_date, completion_status, active} = action.sprint
+        //     let sprint = {
+        //         id: id, 
+        //         house_id: house_id,
+        //         begin_date: begin_date, 
+        //         end_date: end_date, 
+        //         completion_status: completion_status, 
+        //         active: active, 
+        //         approval: approval
+        //     }
+        //     return {
+        //        ...sprint
+        //     }
         default:
             return state
     }

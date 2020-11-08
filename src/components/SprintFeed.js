@@ -23,7 +23,8 @@ class SprintFeed extends Component {
                count +=1
            }
         })
-        let percentage = count / this.props.sprintChores.length
+        let percentage = ( count / this.props.sprintChores.length ) * 100 
+        percentage = Math.round(percentage * 100) / 100
         // why does this cause an infinite re rendering loop???????
         // this.completionStatus() after render
         // this.setState({
@@ -76,7 +77,7 @@ class SprintFeed extends Component {
         let year = d.getFullYear() 
         let dateStr = `${year}-${month}-${date}`
 
-        data = {
+        let data = {
             begin_date: dateStr,
             house_id: this.props.house.id
         }
@@ -97,6 +98,57 @@ class SprintFeed extends Component {
             this.props.start(data)
         })
         
+    }
+
+    confirmSprint =() => {
+        console.log('CONFIRMING SPRINT')
+
+        let data = {
+            sprint_id: this.props.sprint.id, 
+            user_id: this.props.user.id, 
+            house_id: this.props.house.id
+        }
+        const configObj = {
+            method: 'POST', 
+            headers : {
+              'Content-Type' : 'application/json', 
+              'Accept' : 'application/json'
+            }, 
+            body: JSON.stringify(data)
+        }
+
+        fetch(`http://localhost:3000/sprints/confirm`, configObj)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            this.props.start(data)
+        })
+
+    }
+
+    rejectSprint = () => {
+        console.log('REJECTING SPRINT')
+
+        let data = {
+            sprint_id: this.props.sprint.id, 
+            user_id: this.props.user.id, 
+            house_id: this.props.house.id
+        }
+        const configObj = {
+            method: 'POST', 
+            headers : {
+              'Content-Type' : 'application/json', 
+              'Accept' : 'application/json'
+            }, 
+            body: JSON.stringify(data)
+        }
+
+        fetch(`http://localhost:3000/sprints/reject`, configObj)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            this.props.start(data)
+        })
     }
 
     render() {
@@ -132,12 +184,12 @@ class SprintFeed extends Component {
                         </AnimatedCircularProgress>
                     </View>
                     {
-                        this.props.user.admin ?
+                        this.props.user.admin === true ?
                     <View styleName="horizontal">
                         <View>
-                        <Button styleName="secondary"  onPress = { () => this.endSprint()}>
-                            <Text> END SPRINT</Text>
-                        </Button>
+                            <Button styleName="secondary"  onPress = { () => this.endSprint()}>
+                                <Text> END SPRINT</Text>
+                            </Button>
                         </View>
 
                     </View>
@@ -198,10 +250,10 @@ class SprintFeed extends Component {
                         />
                     </TouchableOpacity>
                     <View styleName="horizontal">
-                            <Button  styleName="confirmation">
+                            <Button  styleName="confirmation" onPress = {() => this.confirmSprint()}>
                                 <Text>CONFIRM SPRINT</Text>
                             </Button>
-                            <Button styleName="confirmation secondary">
+                            <Button styleName="confirmation secondary" onPress ={() => this.rejectSprint()}>
                                 <Text>REJECT SPRINT</Text>
                             </Button>
                     </View>
@@ -256,7 +308,7 @@ const mapStateToProps = (state) => {
         house: state.house, 
         sprint: state.sprint, 
         roomies: state.roomies, 
-        user: state.auth, 
+        user: state.auth,
         sprintChores: state.sprintChores
     }
 }
@@ -264,7 +316,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         end: data => dispatch(endSprint(data)), 
-        start: data => dispatch(startSprint(data))
+        start: data => dispatch(startSprint(data)),
     };
   };
 

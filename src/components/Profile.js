@@ -34,9 +34,7 @@ class Profile extends React.Component {
         // })
         // console.log(finalChores)
         let finalChores = this.props.sprintChores.filter(sprintChore => sprintChore.user.id === this.props.user.id)
-        console.log(finalChores)
         let returnChores = finalChores.map(sprintChore => sprintChore.chore)
-        console.log(returnChores, ' FINAL CHORES FOR CHORE LIST !!!!!!')
 
        return returnChores
 
@@ -45,23 +43,30 @@ class Profile extends React.Component {
     completionStatus = () => {
         let count  = 0;
         let myChores = this.getChores()
+        let sprintChores = this.props.sprintChores.filter(sprintChore => {
+             let chore = myChores.filter(chore => sprintChore.chore.id === chore.id)
+            if(chore.length >= 1 && chore[0].id === sprintChore.chore.id) {
+                return true
+            }
+        })
 
-        if(myChores.length  >= 1) {
-            myChores.map(chore =>{
-               if(chore.completion_status) {
-                   count +=1
-               }
-            })
-        let percentage = count / this.props.chores.length
-        return percentage
-        }
+        sprintChores.map(chore =>{
+            if(chore.completion_status) {
+                count +=1
+            }
+         })
+         let percentage = ( count / myChores.length) * 100
+         percentage = Math.round(percentage * 100) / 100
+         return percentage
     }
+
 
     render(){
         
         const { navigation } = this.props
   
         const myChores = this.getChores()
+        let percentage = this.completionStatus()
         navigation.setOptions({
             title: 'Profile',
         })
@@ -78,7 +83,7 @@ class Profile extends React.Component {
                         <AnimatedCircularProgress
                             size={150}
                             width={15}
-                            fill={ this.completionStatus() }
+                            fill={ percentage }
                             tintColor="#00e0ff"
                             onAnimationComplete={() => console.log('onAnimationComplete')}
                             backgroundColor="#3d5875">
@@ -121,7 +126,7 @@ class Profile extends React.Component {
                             <AnimatedCircularProgress
                                 size={150}
                                 width={15}
-                                fill={ this.completionStatus() }
+                                fill={ percentage }
                                 tintColor="#00e0ff"
                                 onAnimationComplete={() => console.log('onAnimationComplete')}
                                 backgroundColor="#3d5875">
@@ -163,7 +168,7 @@ class Profile extends React.Component {
                         <AnimatedCircularProgress
                             size={150}
                             width={15}
-                            fill={ this.completionStatus() }
+                            fill={percentage }
                             tintColor="#00e0ff"
                             onAnimationComplete={() => console.log('onAnimationComplete')}
                             backgroundColor="#3d5875">

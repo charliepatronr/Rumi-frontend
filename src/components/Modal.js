@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { SafeAreaView, StyleSheet } from 'react-native'
 import { Overlay } from 'react-native-elements'
 
 
@@ -20,7 +20,10 @@ const Modal = props => {
         overlayStyle = {styles.overlay}
         onBackdropPress = {closeModal}
         >
+            <SafeAreaView styles={styles.children}>
             {children}
+
+            </SafeAreaView>
         </Overlay>
     )
 
@@ -34,5 +37,5 @@ const styles =  StyleSheet.create( {
         height: 'auto', 
         width: '90%',
         backgroundColor: '#fff',
-    }
+    }, 
 })

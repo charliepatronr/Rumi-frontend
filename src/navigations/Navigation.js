@@ -6,17 +6,19 @@ import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack'
 import ProfileStack from './ProfileStack'
 import SprintStack from './SprintStack'
-import {Icon} from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 
 const Tab = createBottomTabNavigator();
 
 export default function Navigation () {
+
     return (
         <NavigationContainer>
             <Tab.Navigator
             initialRouteName='home'
             tabBarOptions={{
                 inactiveTintColor:'#646464',
+                activeTintColor: 'black'
             }}
             screenOptions={({route}) => ({
                 tabBarIcon: ({color}) => screenOptions(route, color)

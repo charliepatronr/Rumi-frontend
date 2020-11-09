@@ -5,12 +5,23 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeFeed from '../components/HomeFeed';
 import Chore from '../components/Chore';
 import Roomie from '../components/Roomie'
+import HomeSettings from '../components/HomeSettings'
 import { Button, View, Text} from '@shoutem/ui';
+import { useNavigation } from '@react-navigation/native'
+import { Icon } from 'react-native-elements'
+
 
 
 const Stack = createStackNavigator();
 
 export default function HomeFeedStack(){
+    const navigation = useNavigation();
+
+    const goToHomeSettings = () => {
+        navigation.navigate('home-settings', {
+            house: '',
+        })
+    }
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -20,9 +31,11 @@ export default function HomeFeedStack(){
                 headerTitle: () => <Text>HOME</Text>,
                 headerRight: () => (
                     <Button
-                      onPress={() => alert('This is a button!')}
+                      onPress={() => goToHomeSettings()}
                       color="#fff"
-                    ><Text>Hello</Text></Button>)
+                    >
+                       <Icon type="material-community" name="cogs" size = {22} />
+                    </Button>)
             }}
       
             />
@@ -33,6 +46,10 @@ export default function HomeFeedStack(){
             <Stack.Screen 
             name='roomie-profile'
             component={Roomie}
+            />
+            <Stack.Screen 
+            name='home-settings'
+            component={HomeSettings}
             />
         </Stack.Navigator>
     )

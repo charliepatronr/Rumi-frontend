@@ -8,6 +8,7 @@ import ListHome from './ListChoresHome'
 import ListChoresHome from './ListChoresHome';
 import { Icon } from 'react-native-elements'
 import Modal from './Modal'
+import AddChore from "./AddChore";
 
 
 
@@ -65,7 +66,7 @@ class HomeSettings extends React.Component {
                     <ImageBackground
                     style = {styles.imgBack}
                     source={{ uri: this.props.house.img }}
-                  >
+                    >
                     <Tile>
                       <Overlay>
                         <Title styleName="md-gutter-bottom"> HOUSE KEY</Title>
@@ -82,7 +83,7 @@ class HomeSettings extends React.Component {
                  })
                  break;
             case 'addChore':
-                value = <Text>ADDING CHORE</Text>
+                value = <AddChore house={this.props.house.id}/>
                 this.showModal()
                 this.setState({
                     renderComponent: value

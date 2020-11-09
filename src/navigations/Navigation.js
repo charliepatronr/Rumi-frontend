@@ -7,27 +7,39 @@ import HomeStack from './HomeStack'
 import ProfileStack from './ProfileStack'
 import SprintStack from './SprintStack'
 import { Icon } from 'react-native-elements'
+import { connect } from 'react-redux'
+import Login from '../components/Login'
+
 
 const Tab = createBottomTabNavigator();
 
-export default function Navigation () {
+const Navigation = (props) => {
 
     return (
         <NavigationContainer>
-            <Tab.Navigator
-            initialRouteName='home'
-            tabBarOptions={{
-                inactiveTintColor:'#646464',
-                activeTintColor: 'black'
-            }}
-            screenOptions={({route}) => ({
-                tabBarIcon: ({color}) => screenOptions(route, color)
-            })}
-            >
-                <Tab.Screen name="home" component={HomeStack} options={{title: 'House'}}/>
-                <Tab.Screen name= "sprint-feed" component={SprintStack} options={{title: 'Sprint'}} />
-                <Tab.Screen name= "profile" component={ProfileStack} options ={{title: 'Profile'}} />
-            </Tab.Navigator>
+            {
+                !props.user ? 
+                (
+                    <Tab.Navigator
+                    initialRouteName='home'
+                    tabBarOptions={{
+                        inactiveTintColor:'#646464',
+                        activeTintColor: 'black'
+                    }}
+                    screenOptions={({route}) => ({
+                        tabBarIcon: ({color}) => screenOptions(route, color)
+                    })}
+                    >
+                        <Tab.Screen name="home" component={HomeStack} options={{title: 'House'}}/>
+                        <Tab.Screen name= "sprint-feed" component={SprintStack} options={{title: 'Sprint'}} />
+                        <Tab.Screen name= "profile" component={ProfileStack} options ={{title: 'Profile'}} />
+                    </Tab.Navigator>
+                ) :
+                <Login/>
+            }
+
+
+            
         </NavigationContainer>
     )
 }
@@ -55,3 +67,14 @@ function screenOptions(route, color) {
         <Icon type="material-community" name={iconName} size = {22} color ={color} />
     );
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth, 
+    }
+  }
+
+
+
+
+export default connect(mapStateToProps, null)(Navigation)

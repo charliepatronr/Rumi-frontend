@@ -20,10 +20,8 @@ const Modal = props => {
         overlayStyle = {styles.overlay}
         onBackdropPress = {closeModal}
         >
-            <SafeAreaView styles={styles.children}>
             {children}
 
-            </SafeAreaView>
         </Overlay>
     )
 
@@ -37,5 +35,5 @@ const styles =  StyleSheet.create( {
         height: 'auto', 
         width: '90%',
         backgroundColor: '#fff',
-    }, 
+    }
 })

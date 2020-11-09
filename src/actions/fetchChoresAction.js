@@ -14,3 +14,10 @@ export const completeTask = (data) => {
         chore: data
     }
 }
+
+export const addTask = (data) => {
+    return {
+        type: 'ADD_CHORE', 
+        newChore: data
+    }
+}

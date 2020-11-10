@@ -4,15 +4,14 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { StyleSheet, SafeAreaView, ActivityIndicator, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, SafeAreaView, ActivityIndicator, TouchableOpacity} from 'react-native';
 import {fetchHouseChores } from '../actions/fetchChoresAction'
 import { fetchRoomies } from '../actions/fetchRoomies'
 import { fetchSprint, fetchSprintChores } from '../actions/fetchSprint'
 import { fetchHouseInfo } from '../actions/fetchHouse';
 import { currentUser } from '../actions/auth';
-import { Button, View, Text} from '@shoutem/ui';
 import {Icon} from 'react-native-elements'
-
+import { Button, View, Text, ListView, Divider, Tile, Title, Caption, Subtitle, Image, Row} from '@shoutem/ui';
 import ListChores from './ListChores'
 
 
@@ -23,7 +22,7 @@ class HomeFeed extends Component {
     }
 
     componentDidMount(){
-          fetch(`http://localhost:3000/users/188`)
+          fetch(`http://localhost:3000/users/${this.props.userState.id}`)
           .then(resp => resp.json())
           .then(data => {
             this.props.fetchChores(data)
@@ -55,7 +54,7 @@ class HomeFeed extends Component {
 
         if (!this.props.sprintState.completion_status && this.props.sprintState.active && this.props.sprintState.approval ) {
             return (
-                <View>
+                <View style={styles.main}>
                     <View>
                         <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                             <Image style ={styles.img}
@@ -73,7 +72,7 @@ class HomeFeed extends Component {
             )
         } else if (this.props.userState.admin) {
             return (
-                <View>
+                <View style={styles.main}>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
@@ -84,15 +83,15 @@ class HomeFeed extends Component {
                         }
                         />
                     </TouchableOpacity>
-                    <View>
-                        <Text>Start new sprint in sprint page!!!</Text>
+                    <View style={styles.starting}>
+                        <Subtitle styleName='bold'>START NEW SPRINT ADMIN!</Subtitle>
                     </View>
                 </View>
             )
            
         } else {
             return (
-                <View>
+                <View style={styles.main} styleName='vertical'>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
@@ -103,8 +102,8 @@ class HomeFeed extends Component {
                         }
                         />
                     </TouchableOpacity>
-                    <View>
-                        <Text>Ask admin to start new sprint !</Text>
+                    <View style={styles.starting}>
+                        <Subtitle styleName='bold'>ASK ADMIN TO START NEW SPRINT</Subtitle>
                     </View>
                 </View>
             )
@@ -141,6 +140,10 @@ const mapDispatchToProps = dispatch => {
 
 
   const styles = StyleSheet.create({
+    main: {
+        backgroundColor: '#fff', 
+        flex: 1
+    },
     loader: {
         marginTop:10,
         marginBottom: 10,
@@ -168,5 +171,11 @@ const mapDispatchToProps = dispatch => {
     choreDescription : {
         padding: 5,
         width: 300,
-    }
+    }, 
+    starting: {
+        backgroundColor: '#fff', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        flex: 1
+      }
 })

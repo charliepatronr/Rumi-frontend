@@ -22,8 +22,6 @@ class HomeSettings extends React.Component {
         this.state = {
             showRoomies: true, 
             showChores: false, 
-            roomieButton: "confirmation secondary", 
-            choreButton: "confirmation", 
             renderComponent: null, 
             showModal: false, 
         }
@@ -32,16 +30,13 @@ class HomeSettings extends React.Component {
     showChores = () => {
         this.setState({
             showRoomies : false,
-            roomieButton:  "confirmation", 
-            choreButton: "confirmation secondary"
         })
     }
 
     showRoomies = () => {
         this.setState({
             showRoomies : true, 
-            roomieButton:  "confirmation secondary", 
-            choreButton: "confirmation"
+        
         })
     }
 
@@ -103,7 +98,7 @@ class HomeSettings extends React.Component {
     render() {
         const display = !this.state.showRoomies ? "flex" : "none";
         return(
-            <View>
+            <View style={styles.main}>
                 <View style={styles.houseImage} >
                     <TouchableOpacity style ={styles.icon} onPress = {()=> this.selectedComponent('displayKey')}>
                         <Icon type="material-community" name="key-variant" size = {22} />
@@ -120,14 +115,11 @@ class HomeSettings extends React.Component {
                         <Icon type="material-community" name="plus" size = {22} />
                     </TouchableOpacity>
                 </View>
-
-            
-
                     <View styleName="horizontal">
-                        <Button  styleName={this.state.roomieButton} onPress = {() => this.showRoomies()}>
-                            <Text> RUMIES </Text>
+                        <Button  styleName='confirmation secondary' onPress = {() => this.showRoomies()}>
+                            <Text> RUMIS </Text>
                         </Button>
-                        <Button styleName={this.state.choreButton} onPress ={() => this.showChores()}>
+                        <Button styleName='confirmation secondary' onPress ={() => this.showChores()}>
                             <Text> CHORES </Text>
                         </Button>
                     </View>
@@ -171,6 +163,10 @@ export default connect(mapStateToProps, null)(HomeSettings)
 
 
 const styles =  StyleSheet.create( {
+    main: {
+        backgroundColor: '#fff', 
+        flex: 1
+    },
     houseImage : {
         flexDirection: 'row',
         justifyContent: 'center',

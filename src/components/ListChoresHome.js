@@ -2,7 +2,7 @@ import React from 'react'
 import {StyleSheet, FlatList, ActivityIndicator, SafeAreaView} from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
-import { Button, View, Text, TouchableOpacity, Image} from '@shoutem/ui';
+import { Button, View, Text, TouchableOpacity, Image, Divider, Row, Subtitle, Caption} from '@shoutem/ui';
 
 
 
@@ -52,16 +52,30 @@ const Chore = (props) => {
     // }
 
     return (
-        <View>
-            <SafeAreaView style={styles.viewChore}>
-                <TouchableOpacity >
-                    <Text style = {styles.choreName}>{title}</Text>
-                    <Text style = {styles.choreDescription}>{description}</Text>
-                    <Text>Points: {points}</Text>
-                </TouchableOpacity>
-            </SafeAreaView>
-        </View>
+        // <View>
+        //     <SafeAreaView style={styles.viewChore}>
+        //         <TouchableOpacity >
+        //             <Text style = {styles.choreName}>{title}</Text>
+        //             <Text style = {styles.choreDescription}>{description}</Text>
+        //             <Text>Points: {points}</Text>
+        //         </TouchableOpacity>
+        //     </SafeAreaView>
+        // </View>
+        <View styleName='vertical h-center '>
+        <Divider styleName="line" />
+        <Row>
+            <TouchableOpacity >
+                <Subtitle styleName="h-center">{title.toUpperCase()}</Subtitle>
+                <Caption styleName="multiline">{description}</Caption>
+                <Caption styleName="h-center">Points: {points}</Caption>
+            </TouchableOpacity>
+            </Row>
+            <Divider styleName="line" />
+    </View>
+
+        
     )
+    
 
 }
 

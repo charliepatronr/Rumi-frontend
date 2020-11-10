@@ -6,9 +6,10 @@ import { connect } from 'react-redux'
 import { StyleSheet } from 'react-native'
 import Loading from './Loading'
 import { Rating} from 'react-native-elements'
-import { Button, View, Text} from '@shoutem/ui';
 import Modal from './Modal'
 import { completeTask } from '../actions/fetchChoresAction'
+import { Button, View, Text, TouchableOpacity, Image, Divider, Row, Subtitle, Caption} from '@shoutem/ui';
+
 
 class Chore extends React.Component {
     constructor(props) {
@@ -99,18 +100,18 @@ class Chore extends React.Component {
         }
 
         return (
-            <View>
+            <View style={styles.main} styleName='vertical h-center'>
                 <ChoreInfo chore={this.state.chore} completion = {this.state.completionStatus} rating= {this.state.rating}/>
-                {this.state.user.id === this.props.user.id ?
-                    <View>
+                { this.state.user.id === this.props.user.id ?
                         <Button styleName="secondary"  onPress = { () => this.complete()}>
                             <Text> COMPLETE TASK</Text>
                         </Button>
-                    </View> :
+                     :
                     null
                 }
+
                 <Modal isVisible={this.state.showModal} setIsVisible = {this.closeModal}>
-                    <Text> ARE YOU SURE YOU COMPLETED THE TASK? </Text>
+                    <Subtitle styleName='bold h-center'> ARE YOU SURE YOU COMPLETED THE TASK? </Subtitle>
                     <ChoreInfo chore={this.state.chore} completion = {this.state.completionStatus} rating= {this.state.rating}/>
                     <View styleName="horizontal">
                             <Button  styleName="confirmation secondary" onPress = {() => this.confirmCompletion()}>
@@ -150,34 +151,42 @@ const ChoreInfo = (props) => {
     const {title, description, points } = props.chore
 
     return (
-        <View style={styles.viewChoreTitle}>
-            <View style={ {flexDirection: 'row'}}>
-                <Text style= {styles.choreTitleText}>{title}</Text>
-            </View>
-            <Text style={styles.descriptionChore}>{description} </Text>
-            <Text style={styles.descriptionChore}>Points: {points}</Text>
-            {props.completion ?  <Rating style ={styles.rating} imageSize = {20} startingValue ={props.rating}/> : null }
+        // <View style={styles.viewChoreTitle}>
+        //     <View style={ {flexDirection: 'row'}}>
+        //         <Text style= {styles.choreTitleText}>{title}</Text>
+        //     </View>
+        //     <Text style={styles.descriptionChore}>{description} </Text>
+        //     <Text style={styles.descriptionChore}>Points: {points}</Text>
+        //     {props.completion ?  <Rating style ={styles.rating} imageSize = {20} startingValue ={props.rating}/> : null }
+        // </View>
+        <View styleName='horizontal v-center '>
+        <Divider styleName="line" />
+        <View>
+        <Row>
+            <TouchableOpacity >
+                <Subtitle styleName="h-center">{title.toUpperCase()}</Subtitle>
+                <Caption styleName="multiline">{description}</Caption>
+                <Caption styleName=" bold h-center">Points: {points}</Caption>
+            </TouchableOpacity>
+            </Row>
+            <Divider styleName="line" />
         </View>
+
+    </View>
+
+        
     )
 
 } 
 
 
 const styles = StyleSheet.create({
-    viewBody: {
-        flex: 1,
-        backgroundColor: '#fff',
+    main: {
+        backgroundColor: '#fff', 
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
     },
-    viewChoreTitle : {
-        padding:  15,
-    },
-    choreTitleText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    descriptionChore:{
-        marginTop: 5, 
-    }, 
     rating: {
         alignItems: 'center', 
         justifyContent: 'center'

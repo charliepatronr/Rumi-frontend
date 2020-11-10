@@ -55,18 +55,21 @@ class Signup extends Component {
                     onChangeText = {text => this.setState({ name: text})}
                     defaultValue = {this.state.name}
                 />
+                <Divider styleName="line" />
                 <TextInput maxLength={25}
                     placeholder={'EMAIL'}
                     style = {styles.input}
                     onChangeText = {text => this.setState({ email: text})}
                     defaultValue = {this.state.email}
                 />
-                    <TextInput maxLength={25}
+                <Divider styleName="line" />
+                <TextInput maxLength={25}
                     placeholder={'PROFILE PICTURE'}
                     style = {styles.input}
                     onChangeText = {text => this.setState({ img: text})}
                     defaultValue = {this.state.img}
                 />
+                <Divider styleName="line" />
                 <TextInput maxLength={25}
                     placeholder={'USERNAME'}
                     style = {styles.input}
@@ -102,6 +105,7 @@ class Signup extends Component {
         flex: 1, 
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#fff'
       },
     input: {
         width: 300, 

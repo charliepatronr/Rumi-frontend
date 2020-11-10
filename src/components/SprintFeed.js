@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { StyleSheet, SafeAreaView, TouchableHighlightBase, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { endSprint, startSprint } from '../actions/fetchSprint'
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { Button, View, Text} from '@shoutem/ui';
+import { Button, View, Text, Subtitle} from '@shoutem/ui';
 import ListChores from './ListChores'
 
 
@@ -155,7 +155,7 @@ class SprintFeed extends Component {
         let percentage = this.completionStatus()
         if (this.props.sprint.begin_date && !this.props.sprint.completion_status && this.props.sprint.active ) {
             return (
-                <View>
+                <View style={styles.main}>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
@@ -185,12 +185,11 @@ class SprintFeed extends Component {
                     </View>
                     {
                         this.props.user.admin === true ?
-                    <View styleName="horizontal">
-                        <View>
+                        
+                    <View styleName="horizontal h-center">
                             <Button styleName="secondary"  onPress = { () => this.endSprint()}>
                                 <Text> END SPRINT</Text>
                             </Button>
-                        </View>
 
                     </View>
                         : null
@@ -199,7 +198,7 @@ class SprintFeed extends Component {
             )
         } else if (this.props.user.admin && this.props.sprint.completion_status) {
             return (
-                <View>
+                <View style={styles.main}>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
@@ -211,7 +210,7 @@ class SprintFeed extends Component {
                         />
                     </TouchableOpacity>
                         <View style={styles.completionBar}>
-                            <Text> Previous sprint completion </Text>
+                            <Subtitle>PREVIOUS SPRINT COMPLETION </Subtitle>
                             <AnimatedCircularProgress
                                 size={150}
                                 width={15}
@@ -228,7 +227,7 @@ class SprintFeed extends Component {
                                 } 
                             </AnimatedCircularProgress>
                         </View>
-                    <View styleName="horizontal">
+                    <View styleName="horizontal h-center">
                         <Button styleName="secondary"  onPress = { () => this.startSprint()}>
                             <Text> START SPRINT</Text>
                         </Button>
@@ -238,32 +237,32 @@ class SprintFeed extends Component {
             );
         }  else if (!this.props.sprint.active ) {
             return (
-                <View>
-                    <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
-                        <Image style ={styles.img}
-                        PlaceholderContent = {<ActivityIndicator color = '#fff' />}
-                        source={
-                            this.props.house.img
-                            ? {uri: this.props.house.img}
-                            : {uri: '' }
-                        }
-                        />
-                    </TouchableOpacity>
-                    <View styleName="horizontal">
-                            <Button  styleName="confirmation" onPress = {() => this.confirmSprint()}>
-                                <Text>CONFIRM SPRINT</Text>
-                            </Button>
-                            <Button styleName="confirmation secondary" onPress ={() => this.rejectSprint()}>
-                                <Text>REJECT SPRINT</Text>
-                            </Button>
-                    </View>
-                    <ListChores chores={this.props.sprintChores}/>
+                <View style={styles.main}>
+                        <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
+                            <Image style ={styles.img}
+                            PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                            source={
+                                this.props.house.img
+                                ? {uri: this.props.house.img}
+                                : {uri: '' }
+                            }
+                            />
+                        </TouchableOpacity>
+                        <View styleName="horizontal">
+                                <Button  styleName="confirmation secondary" onPress = {() => this.confirmSprint()}>
+                                    <Text>CONFIRM SPRINT</Text>
+                                </Button>
+                                <Button styleName="confirmation secondary" onPress ={() => this.rejectSprint()}>
+                                    <Text>REJECT SPRINT</Text>
+                                </Button>
+                        </View>
+                        <ListChores chores={this.props.sprintChores}/>
                 </View>
             )
         }
         else {
             return(
-                <View>
+                <View style={styles.main}>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
@@ -275,7 +274,8 @@ class SprintFeed extends Component {
                         />
                     </TouchableOpacity>
                         <View style={styles.completionBar}>
-                            <Text> Previous sprint completion </Text>
+                            <Subtitle styleName="bold">HOUSE COMPLETION </Subtitle>
+                            <Subtitle styleName="bold"> LAST SPRINT </Subtitle>
                             <AnimatedCircularProgress
                                 size={150}
                                 width={15}
@@ -292,7 +292,9 @@ class SprintFeed extends Component {
                                 } 
                             </AnimatedCircularProgress>
                         </View>
-                    <Text> Ask admin to start sprint</Text>
+                        <View styleName='horizontal h-center'>
+                            <Subtitle styleName="bold">ASK ADMIN TO START NEW SPRINT </Subtitle>
+                        </View>
                 </View>
             )
 
@@ -326,6 +328,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(SprintFeed)
 
 
 const styles = StyleSheet.create({
+    main: {
+        backgroundColor: '#fff', 
+        flex: 1
+    },
+    middle: {
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        flex: 1
+      },
     loader: {
         marginTop:10,
         marginBottom: 10,

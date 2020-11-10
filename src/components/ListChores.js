@@ -2,10 +2,12 @@
 /* eslint-disable prettier/prettier */
 
 import React from 'react'
-import {StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity, SafeAreaView} from 'react-native';
-import { Image } from 'react-native-elements'
+import {StyleSheet, FlatList, ActivityIndicator, SafeAreaView, TouchableOpacity,} from 'react-native';
+// import { Image } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
+import { Button, View, Text, ListView, Divider, Tile, Title, Caption, Subtitle, Image, Row} from '@shoutem/ui';
+
 // import {size} from 'lodash'
 
 
@@ -60,28 +62,37 @@ const Chore = (props) => {
     }
     return (
         <View>
-            <SafeAreaView style={styles.viewChore}>
-                <TouchableOpacity style={styles.userImage} onPress = {()=> goToUserProfile()}>
-                    <Image style={styles.img}
-                    resizeMode= 'cover'
-                    PlaceholderContent = {<ActivityIndicator color = '#fff' />}
-                    source={
-                        user.img
-                        ? {uri: user.img}
-                        : {uri: profileImg}
-                    }
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity onPress = {() => goToChore()}>
-                    <Text style = {styles.choreName}>{title}</Text>
-                    <Text style = {styles.choreDescription}>{description.substr(0,60)}...</Text>
-                    <Text>Points: {points}</Text>
-                </TouchableOpacity>
-            </SafeAreaView>
+            <Divider styleName="line" />
+            <Row>
+                        <TouchableOpacity onPress = {()=> goToUserProfile()}>
+                            <Image style ={styles.img}
+                            resizeMode= 'cover'
+                            PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                            source={
+                                user.img
+                                ? {uri: user.img}
+                                : {uri: profileImg}
+                            }
+                            />
+                        </TouchableOpacity>
+                        <View styleName="vertical ">
+                            <TouchableOpacity onPress = {() => goToChore()}>
+                                {/* <Text style = {styles.choreName}>{title}</Text> */}
+                                <Subtitle  >{title.toUpperCase()}</Subtitle>
+                                {/* <Text style = {styles.choreDescription}>{description.substr(0,60)}...</Text> */}
+                                <Caption styleName='multiline'>{description.substr(0,60)}...</Caption>
+                                {/* <Text>Points: {points}</Text> */}
+                                <Caption>Points: {points}</Caption>
+                            </TouchableOpacity>
+                        </View>
+            
+            </Row>
+            <Divider styleName="line" />
         </View>
     )
 
 }
+
 
 const styles = StyleSheet.create({
     loader: {
@@ -105,6 +116,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 40,
+       
     }, 
     choreDescription : {
         padding: 5,

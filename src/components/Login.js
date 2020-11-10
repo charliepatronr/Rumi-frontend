@@ -24,21 +24,27 @@ class Login extends Component {
 
 
     login = () => {
-        // if (this.state.title  !== '' && this.state.description !== '' && this.state.points !== ''){
-        //     const reqObj = {
-        //         method: 'POST',
-        //         headers: {
-        //           'Content-Type': 'application/json'
-        //         },
-        //         body:  JSON.stringify(this.state)
-        //       }
-        //       fetch(`http://localhost:3000/users`, reqObj)
-        //       .then(resp => resp.json())
-        //       .then(data => {
-        //           console.log(data)
-        //           this.props.add(data)
-        //       })
-        // }
+        if (this.state.title  !== '' && this.state.description !== '' && this.state.points !== ''){
+            const reqObj = {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body:  JSON.stringify(this.state)
+              }
+              fetch(`http://localhost:3000/auth`, reqObj)
+              .then(resp => resp.json())
+              .then(data => {
+                if (data.error) {
+                    this.setState({
+                      error: data.error
+                    })
+                    console.log(data)
+                  } else {
+                    this.props.login(data)
+                  }
+              })
+        }
 
     }
 
@@ -46,6 +52,7 @@ class Login extends Component {
     render() {
       return (
         <View style = {styles.container}>
+             { this.state.error && <Text style={styles.error}>{this.state.error}</Text> }
                 <TextInput maxLength={25}
                     placeholder={'USERNAME'}
                     style = {styles.input}
@@ -81,12 +88,16 @@ class Login extends Component {
         flex: 1, 
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#fff'
       },
     input: {
         width: 300, 
     }, 
     overlay : {
         width: '104%',
+    }, 
+    error: {
+        color: 'red'
     }
   });
 

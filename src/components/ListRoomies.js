@@ -1,8 +1,9 @@
 import React from 'react'
-import {StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity, SafeAreaView} from 'react-native';
-import { Image } from 'react-native-elements'
+import {StyleSheet, FlatList, ActivityIndicator, SafeAreaView} from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
+import { Button, View, Text, TouchableOpacity, Image, Divider, Row, Subtitle, Caption} from '@shoutem/ui';
+
 
 
 
@@ -65,10 +66,32 @@ const Roomie = (props) => {
     //     })
     // }
     return (
-        <View>
-            <SafeAreaView style={styles.viewRoomie}>
-                <TouchableOpacity style={styles.userImage} >
-                    <Image style={styles.img}
+        // <View>
+        //     <SafeAreaView style={styles.viewRoomie}>
+        //         <TouchableOpacity style={styles.userImage} >
+        //             <Image style={styles.img}
+        //             resizeMode= 'cover'
+        //             PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+        //             source={
+        //                 img
+        //                 ? {uri: img}
+        //                 : {uri: profileImg}
+        //             }
+        //             />
+        //         </TouchableOpacity>
+        //         <TouchableOpacity >
+        //             <Text style = {styles.roomieName}>{name}</Text>
+        //             { admin ? <Text> Administrator</Text> : null }
+        //             <Text style = {styles.roomieInfo}>{email}...</Text>
+        //             <Text>All time points: {historical_points}</Text>
+        //         </TouchableOpacity>
+        //     </SafeAreaView>
+        // </View>
+        <View style={styles.main}>
+            <Divider styleName="line" />
+            <Row>
+                <TouchableOpacity onPress = {()=> goToUserProfile()}>
+                    <Image style ={styles.img}
                     resizeMode= 'cover'
                     PlaceholderContent = {<ActivityIndicator color = '#fff' />}
                     source={
@@ -78,19 +101,27 @@ const Roomie = (props) => {
                     }
                     />
                 </TouchableOpacity>
-                <TouchableOpacity >
-                    <Text style = {styles.roomieName}>{name}</Text>
-                    { admin ? <Text> Administrator</Text> : null }
-                    <Text style = {styles.roomieInfo}>{email}...</Text>
-                    <Text>All time points: {historical_points}</Text>
-                </TouchableOpacity>
-            </SafeAreaView>
+                <View styleName="vertical ">
+                    <TouchableOpacity onPress = {() => goToChore()}>
+                        <Subtitle>{name.toUpperCase()}</Subtitle>
+                        { admin ? <Subtitle> Administrator</Subtitle> : null }
+                        <Caption styleName='multiline'>{email}</Caption>
+                        <Caption> All time points: {historical_points}</Caption>
+                    </TouchableOpacity>
+                </View>
+            
+            </Row>
+            <Divider styleName="line" />
         </View>
     )
+
 
 }
 
 const styles = StyleSheet.create({
+    main: {
+        flex: 1
+    },
     loader: {
         marginTop:10,
         marginBottom: 10,

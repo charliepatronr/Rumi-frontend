@@ -9,6 +9,7 @@ import SprintStack from './SprintStack'
 import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
 import Login from '../components/Login'
+import LoginStack from './LoginStack';
 
 
 const Tab = createBottomTabNavigator();
@@ -18,7 +19,7 @@ const Navigation = (props) => {
     return (
         <NavigationContainer>
             {
-                !props.user ? 
+                props.user.id ? 
                 (
                     <Tab.Navigator
                     initialRouteName='home'
@@ -35,7 +36,7 @@ const Navigation = (props) => {
                         <Tab.Screen name= "profile" component={ProfileStack} options ={{title: 'Profile'}} />
                     </Tab.Navigator>
                 ) :
-                <Login/>
+               <LoginStack/>
             }
 
 

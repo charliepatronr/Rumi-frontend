@@ -7,96 +7,55 @@ import { connect } from 'react-redux'
 import { StyleSheet, SafeAreaView, TouchableHighlightBase} from 'react-native';
 import {  TextInput, Text, View, Button, Icon, Overlay, Divider} from '@shoutem/ui';
 import { loginSuccess } from '../actions/auth'
+import { useNavigation } from '@react-navigation/native'
 
 
 
 
 
-class LandingPage extends Component {
-    constructor(props) {
-        super()
-        this.state = {
-            renderComponent: null, 
-        }
-    }
+
+const  LandingPage = () => {
 
 
-    signup = () => {
-        // if (this.state.title  !== '' && this.state.description !== '' && this.state.points !== ''){
-        //     const reqObj = {
-        //         method: 'POST',
-        //         headers: {
-        //           'Content-Type': 'application/json'
-        //         },
-        //         body:  JSON.stringify(this.state)
-        //       }
-        //       fetch(`http://localhost:3000/users`, reqObj)
-        //       .then(resp => resp.json())
-        //       .then(data => {
-        //           console.log(data)
-        //           this.props.add(data)
-        //       })
-        // }
+     const navigation = useNavigation();
+
+
+    const goToLogin = () => {
+        navigation.navigate('login');
 
     }
+    const goToSignup = () => {
 
+        navigation.navigate('signup')
+    }
 
-    render() {
       return (
-        <View style = {styles.container}>
-                <TextInput maxLength={25}
-                    placeholder={'NAME'}
-                    style = {styles.input}
-                    onChangeText = {text => this.setState({ name: text})}
-                    defaultValue = {this.state.name}
-                />
-                <TextInput maxLength={25}
-                    placeholder={'EMAIL'}
-                    style = {styles.input}
-                    onChangeText = {text => this.setState({ email: text})}
-                    defaultValue = {this.state.email}
-                />
-                    <TextInput maxLength={25}
-                    placeholder={'PROFILE PICTURE'}
-                    style = {styles.input}
-                    onChangeText = {text => this.setState({ img: text})}
-                    defaultValue = {this.state.img}
-                />
-                <TextInput maxLength={25}
-                    placeholder={'USERNAME'}
-                    style = {styles.input}
-                    onChangeText = {text => this.setState({ username: text})}
-                    defaultValue = {this.state.username}
-                />
-                <Divider styleName="line" />
-                <TextInput style={styles.text}
-                    placeholder={'PASSWORD'}
-                    style = {styles.input}
-                    onChangeText = {text => this.setState({ password: text})}
-                    defaultValue = {this.state.password}
-                    secureTextEntry
-                />
-                 <Divider styleName="line" />
-                 <View styleName="horizontal">
-                    <Button onPress = {this.signup} styleName="confirmation secondary" style={styles.button} >
-                        <Text>SUBMIT</Text>
-                    </Button>
-                 </View>
-        </View>
+          <View style ={styles.container}>
+            <View styleName="horizontal" >
+                <Button  styleName="confirmation secondary" onPress = {() => goToLogin()}>
+                    <Text>LOGIN</Text>
+                </Button>
+                <Button styleName="confirmation secondary" onPress ={() => goToSignup()}>
+                    <Text>SIGN UP</Text>
+                </Button>
+            </View>
+          </View>
+
       );
-    }
   }
+
+export default connect(mapStateToProps, null)(LandingPage)
 
 
   const styles = StyleSheet.create({
     button: {
         marginTop: 20,
-
     },
     container: {
         flex: 1, 
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#fff'
       },
     input: {
         width: 300, 
@@ -113,12 +72,10 @@ class LandingPage extends Component {
   }
 
 
-const mapDispatchToProps = dispatch => {
-    return {
-        login: data => dispatch(loginSuccess(data)),
-    };
-  };
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         login: data => dispatch(loginSuccess(data)),
+//     };
+//   };
 
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)

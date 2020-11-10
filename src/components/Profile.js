@@ -4,9 +4,11 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Text, View, StyleSheet, SafeAreaView, ActivityIndicator, Image, FlatList, TouchableOpacity} from 'react-native';
+import { StyleSheet, SafeAreaView, ActivityIndicator, Image, FlatList, TouchableOpacity} from 'react-native';
 import Loading from './Loading'
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { Button, View, Text, ListView, Divider, Tile, Title, Caption, Subtitle, Row} from '@shoutem/ui';
+
 
 
 class Profile extends React.Component {
@@ -59,17 +61,32 @@ class Profile extends React.Component {
          percentage = Math.round(percentage * 100) / 100
          return percentage
     }
+    renderRow(chore) {
+        if (!chore) {
+          return null;
+        }
+      
+        return (
+          <View>
+            <Divider styleName="line" />
+                <Chore chore={chore} />
+            <Divider styleName="line" />
+          </View>
+        );
+      }
+      
 
 
     render(){
         
         const { navigation } = this.props
-  
         const myChores = this.getChores()
         let percentage = this.completionStatus()
         navigation.setOptions({
             title: 'Profile',
         })
+
+        
 
         if (!this.props.user){
             return <Loading isVisible = {true} text= 'LOADING'/>
@@ -77,50 +94,8 @@ class Profile extends React.Component {
 
         if  (!this.props.sprint.completion_status && this.props.sprint.active) {
             return (
-                <View styles={styles.viewRoomie}>
-                    <UserInfo user={this.props.user} />
-                    <View style={styles.completionBar}>
-                        <AnimatedCircularProgress
-                            size={150}
-                            width={15}
-                            fill={ percentage }
-                            tintColor="#00e0ff"
-                            onAnimationComplete={() => console.log('onAnimationComplete')}
-                            backgroundColor="#3d5875">
-                            {
-                                (fill) => (
-                                <Text>
-                                    {this.completionStatus() }% of Tasks 
-                                </Text>
-                                )
-                            } 
-                        </AnimatedCircularProgress>
-                    </View>
-                    <View styles={styles.assigned}>
-                        <Text >Assigned tasks this sprint</Text>
-                    </View>
-                    <View >
-                        { myChores.length >= 1 ? (
-                            <FlatList 
-                            data={myChores}
-                            renderItem = {(chore) => <Chore chore={chore} />}
-                            keyExtractor = {(item, index) => index.toString()}
-                            />
-                        ) : (
-                            <View style={styles.loader}>
-                                <ActivityIndicator size= 'large'/>
-                                <Text>Loading...</Text>
-                            </View>
-                            )
-                        }
-                    </View>
-                </View>
-
-            )
-
-        } else if (!this.props.sprint.active && this.props.sprint.begin_date) {
-                return (
-                    <View styles={styles.viewRoomie}>
+                <View styleName='vertical h-center' style={styles.main}>
+                    <View styleName='horizontal v-center'>
                         <UserInfo user={this.props.user} />
                         <View style={styles.completionBar}>
                             <AnimatedCircularProgress
@@ -139,8 +114,59 @@ class Profile extends React.Component {
                                 } 
                             </AnimatedCircularProgress>
                         </View>
+                    </View>
+
+                    <View>
+                        <Subtitle styleName=''>ASSIGNED TASKS THIS SPRINT</Subtitle>
+                    </View>
+                    <View >
+                        { myChores.length >= 1 ? (
+                            <FlatList 
+                            data={myChores}
+                            renderItem = {(chore) => <Chore chore={chore} />}
+                            keyExtractor = {(item, index) => index.toString()}
+                            />
+                            // <ListView
+                            // data={myChores}
+                            // renderRow={this.renderRow}
+                            // />
+                        ) : (
+                            <View style={styles.loader}>
+                                <ActivityIndicator size= 'large'/>
+                                <Text>Loading...</Text>
+                            </View>
+                            )
+                        }
+                    </View>
+                </View>
+
+            )
+
+        } else if (!this.props.sprint.active && this.props.sprint.begin_date) {
+                return (
+                    <View styleName='vertical h-center' style={styles.main}>
+                        <View styleName='v-center'>
+                            <UserInfo user={this.props.user} />
+                        </View>
+                        <View style={styles.completionBar}>
+                            {/* <AnimatedCircularProgress
+                                size={150}
+                                width={15}
+                                fill={ percentage }
+                                tintColor="#00e0ff"
+                                onAnimationComplete={() => console.log('onAnimationComplete')}
+                                backgroundColor="#3d5875">
+                                {
+                                    (fill) => (
+                                    <Text>
+                                        {this.completionStatus() }% of Tasks 
+                                    </Text>
+                                    )
+                                } 
+                            </AnimatedCircularProgress> */}
+                        </View>
                         <View styles={styles.assigned}>
-                            <Text >Tentative sprint assignment</Text>
+                            <Subtitle styleName='bold' >TENTATIVE SPRINT ASSIGNMENT</Subtitle>
                         </View>
                         <View >
                             { myChores.length >= 1 ? (
@@ -149,6 +175,10 @@ class Profile extends React.Component {
                                 renderItem = {(chore) => <Chore chore={chore} />}
                                 keyExtractor = {(item, index) => index.toString()}
                                 />
+                                // <ListView
+                                // data={myChores}
+                                // renderRow={this.renderRow}
+                                // />
                             ) : (
                                 <View style={styles.loader}>
                                     <ActivityIndicator size= 'large'/>
@@ -161,28 +191,31 @@ class Profile extends React.Component {
                 )
             } else {
                 return (
-                    <View styles={styles.viewRoomie}>
-                    <UserInfo user={this.props.user} />
-                    <View style={styles.completionBar}>
-                    <Text >Previous sprint completion</Text>
-                        <AnimatedCircularProgress
-                            size={150}
-                            width={15}
-                            fill={percentage }
-                            tintColor="#00e0ff"
-                            onAnimationComplete={() => console.log('onAnimationComplete')}
-                            backgroundColor="#3d5875">
-                            {
-                                (fill) => (
-                                <Text>
-                                    {this.completionStatus() }% of Tasks 
-                                </Text>
-                                )
-                            } 
-                        </AnimatedCircularProgress>
-                    </View>
+                    <View styleName='vertical h-center' style={styles.main}>
+                        <View styleName='v-center'>
+                            <UserInfo user={this.props.user} style={styles.middle}/>
+                        </View>
+                        <View>
+                            <Subtitle >YOUR PREVIOUS SPRINT COMPLETION</Subtitle>
+                        </View>
+                        <View style={styles.completionBar}>
+                            <AnimatedCircularProgress
+                                size={150}
+                                width={15}
+                                fill={percentage }
+                                tintColor="#00e0ff"
+                                onAnimationComplete={() => console.log('onAnimationComplete')}
+                                backgroundColor="#3d5875">
+                                {
+                                    (fill) => (
+                                    <Text>
+                                        {this.completionStatus() }% of Tasks 
+                                    </Text>
+                                    )
+                                } 
+                            </AnimatedCircularProgress>
+                        </View>
                     <View styles={styles.assigned}>
-                       
                     </View>
                 </View>
 
@@ -213,14 +246,22 @@ const Chore = (props) => {
     const {title, description, points, img, id } = chore.item
 
     return (
-        <View>
-            <SafeAreaView style={styles.viewChore}>
+        <View styleName='vertical h-center '>
+            <Divider styleName="line" />
+            <Row>
+            {/* <SafeAreaView style={styles.viewChore}> */}
                 <TouchableOpacity >
-                    <Text style = {styles.choreName}>{title}</Text>
-                    <Text style = {styles.choreDescription}>{description}...</Text>
-                    <Text>Points: {points}</Text>
+                    {/* <Text style = {styles.choreName}>{title}</Text> */}
+                    <Subtitle styleName="h-center">{title.toUpperCase()}</Subtitle>
+                    {/* <Text style = {styles.choreDescription}>{description}...</Text> */}
+                    <Caption styleName="multiline">{description}</Caption>
+                    {/* <Text>Points: {points}</Text> */}
+                    <Caption styleName="h-center">Points: {points}</Caption>
                 </TouchableOpacity>
-            </SafeAreaView>
+                </Row>
+                <Divider styleName="line" />
+
+            {/* </SafeAreaView> */}
         </View>
     )
 
@@ -239,9 +280,9 @@ const UserInfo = (props) => {
         //     <Text style={styles.descriptionRoomie}>{email} </Text>
         //     <Text style={styles.descriptionRoomie}>Points: {points}</Text>
         // </View>
-            <View>
+            <View >
                 <View >
-                    <View style={styles.userImage} >
+                    <View styleName='vertical h-center'>
                         <Image style ={styles.img}
                         resizeMode= 'cover'
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
@@ -252,10 +293,10 @@ const UserInfo = (props) => {
                         }
                         />
                     </View>
-                    <View styles={styles.userText}>
-                        <Text style = {styles.userName}>{name}</Text>
+                    <View styleName='vertical h-center' >
+                        <Subtitle styleName='bold'>{name}</Subtitle>
                         <Text style = {styles.userDescription}>Historial Points:{points}</Text>
-                        <Text style = {styles.userDescription}>{username}</Text>
+                        {/* <Text style = {styles.userDescription}>{username}</Text> */}
                     </View>
                 </View>
             </View>
@@ -265,6 +306,13 @@ const UserInfo = (props) => {
 } 
 
 const styles = StyleSheet.create({
+    main: {
+        backgroundColor: '#fff', 
+        flex: 1
+    },
+    middle: {
+        flex: 1
+      },
     completionBar: {
         marginBottom: 10,
     }, 
@@ -315,6 +363,8 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 40,
+        justifyContent: 'center', 
+        alignItems: 'center'
     }, 
     choreDescription : {
         padding: 5,

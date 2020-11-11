@@ -6,10 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { StyleSheet, SafeAreaView, TouchableHighlightBase} from 'react-native';
 import {  TextInput, Text, View, Button, Icon, Overlay, Divider} from '@shoutem/ui';
-import { loginSuccess } from '../actions/auth'
-
-
-
+import { signUp } from '../actions/signUp';
 
 
 class Signup extends Component {
@@ -26,29 +23,41 @@ class Signup extends Component {
     }
 
 
-    signup = () => {
-        // if (this.state.title  !== '' && this.state.description !== '' && this.state.points !== ''){
-        //     const reqObj = {
-        //         method: 'POST',
-        //         headers: {
-        //           'Content-Type': 'application/json'
-        //         },
-        //         body:  JSON.stringify(this.state)
-        //       }
-        //       fetch(`http://localhost:3000/users`, reqObj)
-        //       .then(resp => resp.json())
-        //       .then(data => {
-        //           console.log(data)
-        //           this.props.add(data)
-        //       })
-        // }
 
+
+     joinCreateHouse = () => {
+        const {name, email, username, password } = this.state
+        if (name  !== '' && email !== '' && username !== '' && password !== ''){
+            this.props.signUprumi(this.state)
+            this.props.navigation.navigate('join-or-create-house')
+            // const reqObj = {
+            //     method: 'POST',
+            //     headers: {
+            //       'Content-Type': 'application/json'
+            //     },
+            //     body:  JSON.stringify(this.state)
+            //   }
+            //   fetch(`http://localhost:3000/users`, reqObj)
+            //   .then(resp => resp.json())
+            //   .then(data => {
+            //       console.log(data)
+            //       this.props.add(data)
+            //   })
+        } else {
+            this.setState({
+                error: 'All fields must be filled'
+            })
+        }
     }
 
 
+
     render() {
+
+
       return (
         <View style = {styles.container}>
+            { this.state.error && <Text style={styles.error}>{this.state.error}</Text> }
                 <TextInput maxLength={25}
                     placeholder={'NAME'}
                     style = {styles.input}
@@ -63,7 +72,7 @@ class Signup extends Component {
                     defaultValue = {this.state.email}
                 />
                 <Divider styleName="line" />
-                <TextInput maxLength={25}
+                <TextInput
                     placeholder={'PROFILE PICTURE'}
                     style = {styles.input}
                     onChangeText = {text => this.setState({ img: text})}
@@ -86,7 +95,7 @@ class Signup extends Component {
                 />
                  <Divider styleName="line" />
                  <View styleName="horizontal">
-                    <Button onPress = {this.signup} styleName="confirmation secondary" style={styles.button} >
+                    <Button onPress = {() =>this.joinCreateHouse()} styleName="confirmation secondary" style={styles.button} >
                         <Text>SUBMIT</Text>
                     </Button>
                  </View>
@@ -99,7 +108,6 @@ class Signup extends Component {
   const styles = StyleSheet.create({
     button: {
         marginTop: 20,
-
     },
     container: {
         flex: 1, 
@@ -110,8 +118,8 @@ class Signup extends Component {
     input: {
         width: 300, 
     }, 
-    overlay : {
-        width: '104%',
+    error: {
+        color: 'red'
     }
   });
 
@@ -124,7 +132,7 @@ class Signup extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: data => dispatch(loginSuccess(data)),
+        signUprumi: data => dispatch(signUp(data)),
     };
   };
 

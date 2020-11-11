@@ -62,16 +62,16 @@ const Chore = (props) => {
         //     </SafeAreaView>
         // </View>
         <View styleName='vertical h-center '>
-        <Divider styleName="line" />
-        <Row>
-            <TouchableOpacity >
-                <Subtitle styleName="h-center">{title.toUpperCase()}</Subtitle>
-                <Caption styleName="multiline">{description}</Caption>
-                <Caption styleName="h-center">Points: {points}</Caption>
-            </TouchableOpacity>
-            </Row>
             <Divider styleName="line" />
-    </View>
+            <Row>
+                <TouchableOpacity >
+                    <Subtitle styleName="h-center">{title.toUpperCase()}</Subtitle>
+                    <Caption styleName="multiline">{description}</Caption>
+                    <Caption styleName="h-center">Points: {points}</Caption>
+                </TouchableOpacity>
+                </Row>
+                <Divider styleName="line" />
+        </View>
 
         
     )

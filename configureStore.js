@@ -9,6 +9,8 @@ import roomiesReducer from './src/reducers/roomiesReducer';
 import sprintReducer from './src/reducers/sprintReducer';
 import houseReducer from './src/reducers/houseReducer';
 import sprintChoresReducer from './src/reducers/sprintChoresReducer';
+import signUpReducer from './src/reducers/signUpReducer';
+
 
 
 const rootReducer = combineReducers({
@@ -18,6 +20,7 @@ const rootReducer = combineReducers({
   roomies: roomiesReducer,
   house: houseReducer,
   sprintChores: sprintChoresReducer,
+  signUp: signUpReducer
 });
 
 

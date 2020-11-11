@@ -11,7 +11,9 @@ export const fetchHouseChores = (data) => {
 export const completeTask = (data) => {
     return {
         type: 'COMPLETE_TASK', 
-        chore: data
+        chore: data, 
+        points: data.chore.points, 
+        user: data.user.id
     }
 }
 

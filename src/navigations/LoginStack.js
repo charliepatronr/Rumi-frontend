@@ -5,6 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingPage from '../components/LandingPage';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
+import JoinOrCreateHouse from '../components/JoinOrCreateHouse';
+
 
 
 
@@ -36,6 +38,14 @@ export default function LoginStack(){
                 headerTitle: () => null,
             }}
             />
+            <Stack.Screen 
+            name='join-or-create-house'
+            component={JoinOrCreateHouse}
+            options = {{
+                headerTitle: () => null,
+            }}
+            />
+            
         </Stack.Navigator>
     )
 }

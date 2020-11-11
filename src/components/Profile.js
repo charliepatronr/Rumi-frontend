@@ -271,7 +271,7 @@ const Chore = (props) => {
 
 const UserInfo = (props) => {
     const profileImg = 'https://freesvg.org/img/abstract-user-flat-4.png'
-    const {name, email, admin, img, points, username, sprint_chores } = props.user
+    const {name, email, admin, img, historical_points, username, sprint_chores } = props.user
     return (
         // <View style={styles.viewName}>
         //     <View style={ {flexDirection: 'row'}}>
@@ -294,8 +294,8 @@ const UserInfo = (props) => {
                         />
                     </View>
                     <View styleName='vertical h-center' >
-                        <Subtitle styleName='bold'>{name}</Subtitle>
-                        <Text style = {styles.userDescription}>Historial Points:{points}</Text>
+                        <Subtitle styleName='bold'>{name.toUpperCase()}</Subtitle>
+                        <Text style = {styles.userDescription}>All time points: {historical_points}</Text>
                         {/* <Text style = {styles.userDescription}>{username}</Text> */}
                     </View>
                 </View>

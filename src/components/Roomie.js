@@ -176,7 +176,7 @@ export default connect(mapStateToProps, null)(Roomie)
 
 const RoomieInfo = (props) => {
     const profileImg = 'https://freesvg.org/img/abstract-user-flat-4.png'
-    const {name, email, admin, img, points, username, sprint_chores } = props.roomie
+    const {name, email, admin, img, historical_points, username, sprint_chores } = props.roomie
     return (
             <View>
                 <View >
@@ -193,8 +193,8 @@ const RoomieInfo = (props) => {
                     </View>
                     <View styleName='vertical h-center' >
                         {/* <Text style = {styles.roomieName}>{name}</Text> */}
-                        <Subtitle styleName='bold'>{name}</Subtitle>
-                        <Text >Historial Points:{points}</Text>
+                        <Subtitle styleName='bold'>{name.toUpperCase()}</Subtitle>
+                        <Text >All time points: {historical_points}</Text>
                         {/* <Text style = {styles.roomieDescription}>{username}</Text> */}
                     </View>
                 </View>

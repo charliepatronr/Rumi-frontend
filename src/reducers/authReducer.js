@@ -19,6 +19,35 @@ const authReducer = (state = {}, action) => {
             }
             // console.log(action.user)
             return user
+        case 'JOIN_HOUSE':
+            let newRoomie = {
+                id: action.newRoomie.id, 
+                house_id: action.newRoomie.house_id,
+                name: action.newRoomie.name, 
+                img: action.newRoomie.img, 
+                admin: action.newRoomie.admin, 
+                username: action.newRoomie.username, 
+                email: action.newRoomie.email, 
+                points: action.newRoomie.points,
+                historical_points: action.newRoomie.historical_points
+            }
+            return newRoomie
+        case 'COMPLETE_TASK':
+            let chorePoints = action.points
+            let pastPoints = state.historical_points
+            let newPoints = chorePoints + pastPoints
+            if(action.user === state.id){
+                console.log( newPoints, 'ENTERED IF CORRECTLY')
+                return {
+                    ...state, 
+                    historical_points: newPoints
+                }
+            } else {
+                console.log('DIDNT ENTER IF CORRECTELY')
+                return{
+                    ...state
+                }
+            }
         case 'LOGOUT_SUCCESS':
             return {}
         default:

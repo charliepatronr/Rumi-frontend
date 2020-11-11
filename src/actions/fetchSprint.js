@@ -19,7 +19,8 @@ export const fetchSprintChores = (data, sprint) => {
 export const endSprint = (data) => {
     return {
         type: 'END_SPRINT',
-        sprint: data
+        sprint: data, 
+        roomies: data.users
     }
 }
 

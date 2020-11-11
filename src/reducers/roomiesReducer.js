@@ -24,7 +24,22 @@ const roomiesReducer = (state = [], action) => {
             console.log(otherRoomies, 'OTHER ROOMIES!!!!')
 
             return [...otherRoomies].concat(targetRoomie)
-
+        case 'END_SPRINT':
+            let newRoomiesPoints = action.roomies.map(roomie => {
+                const {id, house_id, name, img, admin, username, email, points, historical_points } = roomie
+                return {
+                    id, 
+                    house_id, 
+                    name, 
+                    img,
+                    admin, 
+                    username, 
+                    email, 
+                    points, 
+                    historical_points
+                }
+            })
+            return [...newRoomiesPoints]
         default:
             return state
     }

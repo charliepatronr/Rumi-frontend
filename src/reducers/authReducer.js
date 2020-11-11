@@ -48,6 +48,21 @@ const authReducer = (state = {}, action) => {
                     ...state
                 }
             }
+        case 'END_SPRINT':
+            //action.roomies
+            let newAth 
+            action.roomies.forEach(roomie => {
+                console.log(roomie.id, 'ROOMIE ID')
+                console.log(state.id, 'STATE ID!!!!!!!!!!')
+                if(roomie.id === state.id){
+                    newAuth = {
+                        ...state, 
+                        historical_points: roomie.historical_points
+                    }
+                }
+            })
+            console.log(newAth)
+            return newAuth
         case 'LOGOUT_SUCCESS':
             return {}
         default:

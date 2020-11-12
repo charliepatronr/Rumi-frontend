@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { StyleSheet, SafeAreaView, TouchableHighlightBase, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
+import { StyleSheet, SafeAreaView, TouchableHighlightBase, Image, TouchableOpacity, ActivityIndicator, Alert} from 'react-native';
 import { endSprint, startSprint } from '../actions/fetchSprint'
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Button, View, Text, Subtitle} from '@shoutem/ui';
@@ -14,6 +14,32 @@ import ListChores from './ListChores'
 class SprintFeed extends Component {
     constructor() {
         super()
+    }
+
+    createAlert = () => {
+        Alert.alert(
+            'Sprint now active!', 
+            'Finish as many tasks as you can...', 
+            [
+                {
+                    text: 'Ok',  onPress: () => console.log("OK Pressed") 
+                }
+            ],
+            { cancelable: false }
+        )
+    }
+
+    createAlertRejection = () => {
+        Alert.alert(
+            "Consensus wasn't reached!", 
+            'Cast your vote again and and see if your RUMIS agree this time!', 
+            [
+                {
+                    text: 'Ok',  onPress: () => console.log("OK Pressed") 
+                }
+            ],
+            { cancelable: false }
+        )
     }
 
     completionStatus = () => {
@@ -122,6 +148,9 @@ class SprintFeed extends Component {
         .then(data => {
             console.log(data)
             this.props.start(data)
+            if(this.props.sprint.active && this.props.sprint.approval){
+                this.createAlert()
+            }
         })
 
     }
@@ -149,10 +178,33 @@ class SprintFeed extends Component {
             console.log(data)
             this.props.start(data)
         })
+
+        //consensus wasn't reached! Cast you vote again and see if your RUMIS agree this time!
+    }
+    
+    componentDidUpdate (prevProps, prevState) {
+        if(prevProps.sprint.id !== this.props.sprint.id && !prevProps.sprint.completion_status){
+            this.createAlertRejection()
+            
+        }
+    }
+    displayConfirmOrReject = () => {
+        let mySprintChores = this.props.sprintChores.filter( sprintChore => sprintChore.user.id === this.props.user.id)
+        let booleans = mySprintChores.filter( sprintChore => {
+            if( sprintChore.accepted ){
+                return true 
+            } else if ( sprintChore.rejected) {
+                return true 
+            }
+        })
+        console.log(booleans)
+        return booleans
     }
 
     render() {
         let percentage = this.completionStatus()
+        let conditional = this.displayConfirmOrReject()
+
         if (this.props.sprint.begin_date && !this.props.sprint.completion_status && this.props.sprint.active ) {
             return (
                 <View style={styles.main}>
@@ -249,12 +301,25 @@ class SprintFeed extends Component {
                             />
                         </TouchableOpacity>
                         <View styleName="horizontal">
-                                <Button  styleName="confirmation secondary" onPress = {() => this.confirmSprint()}>
-                                    <Text>CONFIRM SPRINT</Text>
+                            {conditional.length >= 1 ?
+                            (
+                                <Button  styleName="confirmation secondary">
+                                    <Text>WAITING FOR OTHER RUMI VOTES</Text>
                                 </Button>
-                                <Button styleName="confirmation secondary" onPress ={() => this.rejectSprint()}>
-                                    <Text>REJECT SPRINT</Text>
-                                </Button>
+                            ) :
+
+                            (
+                                <View styleName="horizontal">
+                                    <Button  styleName="confirmation secondary h-center" onPress = {() => this.confirmSprint()}>
+                                        <Text>CONFIRM SPRINT</Text>
+                                    </Button>
+                                    <Button styleName="confirmation secondary" onPress ={() => this.rejectSprint()}>
+                                        <Text>REJECT SPRINT</Text>
+                                    </Button>
+                                </View>
+                            )
+                            }
+   
                         </View>
                         <ListChores chores={this.props.sprintChores}/>
                 </View>

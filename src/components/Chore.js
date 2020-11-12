@@ -84,6 +84,9 @@ class Chore extends React.Component {
              console.log(response)
             this.props.completeChore(response)
             this.closeModal()
+            this.setState({
+                completionStatus: true
+            })
             });
      }
 
@@ -102,12 +105,17 @@ class Chore extends React.Component {
         return (
             <View style={styles.main} styleName='vertical h-center'>
                 <ChoreInfo chore={this.state.chore} completion = {this.state.completionStatus} rating= {this.state.rating}/>
-                { this.state.user.id === this.props.user.id ?
+                { this.state.user.id === this.props.user.id  &&  !this.state.completionStatus && this.props.sprint.active ?
                         <Button styleName="secondary"  onPress = { () => this.complete()}>
                             <Text> COMPLETE TASK</Text>
                         </Button>
                      :
-                    null
+                     this.state.user.id === this.props.user.id &&  this.state.completionStatus ? 
+                     (
+                        <Button styleName="secondary">
+                            <Text> THANK YOU FOR COMPLETING TASK</Text>
+                        </Button>
+                     ) : null
                 }
 
                 <Modal isVisible={this.state.showModal} setIsVisible = {this.closeModal}>
@@ -133,6 +141,7 @@ class Chore extends React.Component {
 const mapStateToProps = (state) => {
     return {
         user: state.auth, 
+        sprint: state.sprint
     }
 }
 

@@ -9,6 +9,9 @@ import ListChoresHome from './ListChoresHome';
 import { Icon } from 'react-native-elements'
 import Modal from './Modal'
 import AddChore from "./AddChore";
+import RoomieOfTheWeek from "./RoomieOfTheWeek";
+
+
 
 
 
@@ -84,6 +87,14 @@ class HomeSettings extends React.Component {
                     renderComponent: value
                 })
                 break;
+            case 'rumieOfTheWeek':
+                value = <RoomieOfTheWeek rof={this.props.house.rof_week}/>
+                this.showModal()
+                this.setState({
+                    renderComponent: value
+                })
+                break;
+
             default: 
                 this.setState({
                     renderComponent: null, 
@@ -100,9 +111,18 @@ class HomeSettings extends React.Component {
         return(
             <View style={styles.main}>
                 <View style={styles.houseImage} >
-                    <TouchableOpacity style ={styles.icon} onPress = {()=> this.selectedComponent('displayKey')}>
-                        <Icon type="material-community" name="key-variant" size = {22} />
-                    </TouchableOpacity>
+                    <View styleName ='vertical v-center'>
+                    <View styleName='md-gutter-vertical'>
+
+                        <TouchableOpacity styleName = 'md-gutter-vertical' style ={styles.icon} onPress = {()=> this.selectedComponent('displayKey')}>
+                            <Icon type="material-community" name="key-variant" size = {22} />
+                        </TouchableOpacity>
+                    </View>
+                        <TouchableOpacity style ={styles.icon} onPress = {()=> this.selectedComponent('rumieOfTheWeek')}>
+                            <Icon type="material-community" name="crown" size = {22} />
+                        </TouchableOpacity>
+                    </View>
+
                     <Image style ={styles.img}
                     PlaceholderContent = {<ActivityIndicator color = '#fff' />}
                     source={

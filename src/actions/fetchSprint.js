@@ -20,7 +20,8 @@ export const endSprint = (data) => {
     return {
         type: 'END_SPRINT',
         sprint: data, 
-        roomies: data.users
+        roomies: data.users,
+        rumiOfTheWeek: data.users[0].house.rof_week
     }
 }
 

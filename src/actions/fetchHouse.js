@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 
 export const fetchHouseInfo = (data) => {
-    const {id, name, address, unique_key, img, rules} = data.house
+    const {id, name, address, unique_key, img, rules, rof_week} = data.house
     let houseObj = {
         id: id,
         name: name,
@@ -10,6 +10,7 @@ export const fetchHouseInfo = (data) => {
         unique_key: unique_key,
         img: img,
         rules: rules,
+        rof_week: rof_week
     }
     return {
         type: 'FETCH_HOUSE',

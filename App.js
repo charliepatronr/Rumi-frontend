@@ -18,6 +18,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.disableYellowBox = true; 
     return (
       <Provider store={configureStore}>
         <Navigation />

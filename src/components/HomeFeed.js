@@ -13,6 +13,8 @@ import { currentUser } from '../actions/auth';
 import {Icon} from 'react-native-elements'
 import { Button, View, Text, ListView, Divider, Tile, Title, Caption, Subtitle, Image, Row} from '@shoutem/ui';
 import ListChores from './ListChores'
+import Loading from './Loading'
+
 
 
 
@@ -52,13 +54,15 @@ class HomeFeed extends Component {
 
     render() {
 
+
         if (!this.props.sprintState.completion_status && this.props.sprintState.active && this.props.sprintState.approval ) {
             return (
                 <View style={styles.main}>
                     <View>
                         <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                             <Image style ={styles.img}
-                            PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                            PlaceholderContent = {<ActivityIndicator size="small" />}
+                            resizeMode={'stretch'}
                             source={
                                 this.props.houseState.img
                                 ? {uri: this.props.houseState.img}
@@ -70,12 +74,30 @@ class HomeFeed extends Component {
                     <ListChores chores={this.props.sprintChoresState}/>
                 </View>
             )
-        } else if (this.props.userState.admin) {
+        }  else if (!this.props.sprintState.active && this.props.sprintState.begin_date ) {
+            return (
+                <View style={styles.main}>
+                <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
+                    <Image style ={styles.img}
+                    PlaceholderContent = {<ActivityIndicator size="small" />}
+                    source={
+                        this.props.houseState.img
+                        ? {uri: this.props.houseState.img}
+                        : {uri: '' }
+                    }
+                    />
+                </TouchableOpacity>
+                <View style={styles.starting}>
+                    <Subtitle styleName='bold'>VOTE AND WAIT FOR RUMIS</Subtitle>
+                </View>
+            </View>
+            )
+        } else if (this.props.userState.admin && !this.props.sprint.end_date ) {
             return (
                 <View style={styles.main}>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
-                        PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                        PlaceholderContent = {<ActivityIndicator size="small" />}
                         source={
                             this.props.houseState.img
                             ? {uri: this.props.houseState.img}
@@ -94,7 +116,7 @@ class HomeFeed extends Component {
                 <View style={styles.main} styleName='vertical'>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
-                        PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                        PlaceholderContent = {<ActivityIndicator size="small" />}
                         source={
                             this.props.houseState.img
                             ? {uri: this.props.houseState.img}
@@ -108,6 +130,8 @@ class HomeFeed extends Component {
                 </View>
             )
         }
+        
+
     }
   }
 
@@ -163,10 +187,9 @@ const mapDispatchToProps = dispatch => {
         margin: 5,
     }, 
     img: {
-        width: 100,
-        height: 100,
-        borderRadius: 60,
-        backgroundColor: 'black',
+        width: 110,
+        height: 90,
+        borderRadius: 40,
     }, 
     choreDescription : {
         padding: 5,

@@ -9,11 +9,19 @@ import { endSprint, startSprint } from '../actions/fetchSprint'
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Button, View, Text, Subtitle} from '@shoutem/ui';
 import ListChores from './ListChores'
+import Modal from './Modal'
+import Loading from './Loading'
+
+
 
 
 class SprintFeed extends Component {
     constructor() {
-        super()
+        super() 
+        this.state = {
+            showModal: false, 
+            loading: false
+        }
     }
 
     createAlert = () => {
@@ -94,9 +102,22 @@ class SprintFeed extends Component {
         })
     }
 
-    startSprint = () => {
-        console.log('STARTING SPRINT')
+    complete = () => {
+        this.setState({
+            showModal: true
+        })
+    }
 
+     closeModal = () =>{
+         this.setState({
+             showModal: false
+         })
+     }
+
+    startSprint = () => {
+        this.setState({
+            loading: true
+        })
         let d = new Date()
         let date = d.getDate()
         let month = d.getMonth()
@@ -122,6 +143,9 @@ class SprintFeed extends Component {
         .then(data => {
             console.log(data)
             this.props.start(data)
+            this.setState({
+                loading: false
+            })
         })
         
     }
@@ -205,12 +229,17 @@ class SprintFeed extends Component {
         let percentage = this.completionStatus()
         let conditional = this.displayConfirmOrReject()
 
+        if (this.state.loading){
+            return <Loading isVisible = {true} text= 'LOADING'/>
+        }
+
         if (this.props.sprint.begin_date && !this.props.sprint.completion_status && this.props.sprint.active ) {
             return (
                 <View style={styles.main}>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                        resizeMode={'stretch'}
                         source={
                             this.props.house.img
                             ? {uri: this.props.house.img}
@@ -239,10 +268,20 @@ class SprintFeed extends Component {
                         this.props.user.admin === true ?
                         
                     <View styleName="horizontal h-center">
-                            <Button styleName="secondary"  onPress = { () => this.endSprint()}>
+                            <Button styleName="secondary"  onPress = { () => this.complete()}>
                                 <Text> END SPRINT</Text>
                             </Button>
-
+                            <Modal isVisible={this.state.showModal} setIsVisible = {this.closeModal}>
+                                <Subtitle styleName='bold h-center md-gutter-vertical'> ARE YOU SURE YOU WANT TO END SPRINT? </Subtitle>
+                                <View styleName="horizontal">
+                                        <Button  styleName="confirmation secondary" onPress = {() => this.endSprint()}>
+                                            <Text>YES</Text>
+                                        </Button>
+                                        <Button styleName="confirmation secondary" onPress ={() => this.closeModal()}>
+                                            <Text>NO</Text>
+                                        </Button>
+                                </View>
+                            </Modal>
                     </View>
                         : null
                     }
@@ -253,6 +292,7 @@ class SprintFeed extends Component {
                 <View style={styles.main}>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
+                        resizeMode={'stretch'}
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
                         source={
                             this.props.house.img
@@ -262,7 +302,7 @@ class SprintFeed extends Component {
                         />
                     </TouchableOpacity>
                         <View style={styles.completionBar}>
-                            <Subtitle>PREVIOUS SPRINT COMPLETION </Subtitle>
+                            <Subtitle styleName='md-gutter-vertical'>PREVIOUS SPRINT COMPLETION </Subtitle>
                             <AnimatedCircularProgress
                                 size={150}
                                 width={15}
@@ -293,6 +333,7 @@ class SprintFeed extends Component {
                         <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                             <Image style ={styles.img}
                             PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                            resizeMode={'stretch'}
                             source={
                                 this.props.house.img
                                 ? {uri: this.props.house.img}
@@ -304,7 +345,7 @@ class SprintFeed extends Component {
                             {conditional.length >= 1 ?
                             (
                                 <Button  styleName="confirmation secondary">
-                                    <Text>WAITING FOR OTHER RUMI VOTES</Text>
+                                    <Text>WAITING FOR RUMI VOTES</Text>
                                 </Button>
                             ) :
 
@@ -331,6 +372,7 @@ class SprintFeed extends Component {
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                        resizeMode={'stretch'}
                         source={
                             this.props.house.img
                             ? {uri: this.props.house.img}
@@ -418,14 +460,12 @@ const styles = StyleSheet.create({
     houseImage : {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10,
-        marginBottom: 10,
+        margin: 5,
     }, 
     img: {
-        width: 100,
-        height: 100,
-        borderRadius: 60,
-        backgroundColor: 'black',
+        width: 110,
+        height: 90,
+        borderRadius: 40,
     }, 
     choreDescription : {
         padding: 5,

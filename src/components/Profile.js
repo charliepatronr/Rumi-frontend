@@ -81,6 +81,7 @@ class Profile extends React.Component {
         
         const { navigation } = this.props
         const myChores = this.getChores()
+        console.log(myChores, 'MY CHORES !!!!!!!!!')
         let percentage = this.completionStatus()
         navigation.setOptions({
             title: 'Profile',
@@ -92,7 +93,7 @@ class Profile extends React.Component {
             return <Loading isVisible = {true} text= 'LOADING'/>
         }
 
-        if  (!this.props.sprint.completion_status && this.props.sprint.active) {
+        if  (!this.props.sprint.completion_status && this.props.sprint.active && myChores.length >= 1) {
             return (
                 <View styleName='vertical h-center' style={styles.main}>
                     <View styleName='horizontal v-center'>
@@ -142,9 +143,9 @@ class Profile extends React.Component {
 
             )
 
-        } else if (!this.props.sprint.active && this.props.sprint.begin_date) {
+        } else if (!this.props.sprint.active && this.props.sprint.begin_date ) {
                 return (
-                    <View styleName='vertical h-center' style={styles.main}>
+                    <View styleName='vertical h-center md-gutter-vertical' style={styles.main}>
                         <View styleName='v-center'>
                             <UserInfo user={this.props.user} />
                         </View>
@@ -166,7 +167,7 @@ class Profile extends React.Component {
                             </AnimatedCircularProgress> */}
                         </View>
                         <View styles={styles.assigned}>
-                            <Subtitle styleName='bold' >TENTATIVE SPRINT ASSIGNMENT</Subtitle>
+                            <Subtitle styleName='bold' >PENDING SPRINT ASSIGNMENT</Subtitle>
                         </View>
                         <View >
                             { myChores.length >= 1 ? (
@@ -189,14 +190,47 @@ class Profile extends React.Component {
                         </View>
                     </View>
                 )
-            } else {
+            } else if(myChores.length === 0){
                 return (
-                    <View styleName='vertical h-center' style={styles.main}>
+                    <View styleName='vertical h-center md-gutter-vertical' style={styles.main}>
                         <View styleName='v-center'>
                             <UserInfo user={this.props.user} style={styles.middle}/>
                         </View>
                         <View>
-                            <Subtitle >YOUR PREVIOUS SPRINT COMPLETION</Subtitle>
+                            <Subtitle styleName = 'md-gutter-vertical' >NO CHORES ASSIGNED</Subtitle>
+                        </View>
+                        <View style={styles.completionBar}>
+                            <AnimatedCircularProgress
+                                size={150}
+                                width={15}
+                                fill={0}
+                                tintColor="#00e0ff"
+                                onAnimationComplete={() => console.log('onAnimationComplete')}
+                                backgroundColor="#3d5875">
+                                {
+                                    (fill) => (
+                                    <Text>
+                                        {this.completionStatus() }% of Tasks 
+                                    </Text>
+                                    )
+                                } 
+                            </AnimatedCircularProgress>
+                        </View>
+                    <View styles={styles.assigned}>
+                    </View>
+                </View>
+
+                )
+
+
+            } else {
+                return (
+                    <View styleName='vertical h-center md-gutter-vertical' style={styles.main}>
+                        <View styleName='v-center'>
+                            <UserInfo user={this.props.user} style={styles.middle}/>
+                        </View>
+                        <View>
+                            <Subtitle styleName = 'md-gutter-vertical' >YOUR PREVIOUS SPRINT COMPLETION</Subtitle>
                         </View>
                         <View style={styles.completionBar}>
                             <AnimatedCircularProgress
@@ -281,8 +315,8 @@ const UserInfo = (props) => {
         //     <Text style={styles.descriptionRoomie}>Points: {points}</Text>
         // </View>
             <View >
-                <View >
-                    <View styleName='vertical h-center'>
+                <View styleName='vertical h-center'>
+                    <View >
                         <Image style ={styles.img}
                         resizeMode= 'cover'
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
@@ -330,9 +364,9 @@ const styles = StyleSheet.create({
         padding:10, 
     }, 
     img: {
-        width: 50,
-        height: 50,
-        borderRadius: 40,
+        width: 90,
+        height: 85,
+        borderRadius: 60,
     }, 
     roomieDescription : {
         padding: 5,
@@ -360,9 +394,9 @@ const styles = StyleSheet.create({
         marginRight: 15,
     }, 
     img: {
-        width: 50,
-        height: 50,
-        borderRadius: 40,
+        width: 90,
+        height: 90,
+        borderRadius: 60,
         justifyContent: 'center', 
         alignItems: 'center'
     }, 

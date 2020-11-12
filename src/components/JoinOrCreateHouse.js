@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { StyleSheet, SafeAreaView, TouchableHighlightBase} from 'react-native';
+import { StyleSheet, SafeAreaView, TouchableHighlightBase, Alert} from 'react-native';
 import {  TextInput, Text, View, Button, Icon, Overlay, Divider, Subtitle} from '@shoutem/ui';
 import { loginSuccess } from '../actions/auth'
 import { joinHouse } from '../actions/signUp';
@@ -22,6 +22,20 @@ class JoinOrCreateHouse extends Component {
             error: null,
         }
     }
+
+    createAlert = () => {
+        Alert.alert(
+            'WELCOME TO HOUSE STARK!', 
+            'Be a greate RUMI', 
+            [
+                {
+                    text: 'Ok',  onPress: () => console.log("OK Pressed") 
+                }
+            ],
+            { cancelable: false }
+        )
+    }
+
 
 
     signup = () => {
@@ -48,6 +62,7 @@ class JoinOrCreateHouse extends Component {
                           error: data.message
                       })
                   }
+                  this.createAlert()
               })
         }
 

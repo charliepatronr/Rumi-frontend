@@ -29,6 +29,7 @@ export default function LoginStack(){
             component={Login}
             options = {{
                 headerTitle: () => null,
+                headerBackTitle: () => <Text>HOME</Text>,
             }}
             />
             <Stack.Screen 
@@ -36,6 +37,8 @@ export default function LoginStack(){
             component={Signup}
             options = {{
                 headerTitle: () => null,
+                headerBackTitle: () => <Text>Back</Text>,
+
             }}
             />
             <Stack.Screen 
@@ -43,6 +46,7 @@ export default function LoginStack(){
             component={JoinOrCreateHouse}
             options = {{
                 headerTitle: () => null,
+                headerBackTitle: () => <Text>Back</Text>,
             }}
             />
             

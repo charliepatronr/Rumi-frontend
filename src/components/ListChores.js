@@ -64,28 +64,23 @@ const Chore = (props) => {
         <View>
             <Divider styleName="line" />
             <Row>
-                        <TouchableOpacity onPress = {()=> goToUserProfile()}>
-                            <Image style ={styles.img}
-                            resizeMode= 'cover'
-                            PlaceholderContent = {<ActivityIndicator color = '#fff' />}
-                            source={
-                                user.img
-                                ? {uri: user.img}
-                                : {uri: profileImg}
-                            }
-                            />
-                        </TouchableOpacity>
-                        <View styleName="vertical ">
-                            <TouchableOpacity onPress = {() => goToChore()}>
-                                {/* <Text style = {styles.choreName}>{title}</Text> */}
-                                <Subtitle  >{title.toUpperCase()}</Subtitle>
-                                {/* <Text style = {styles.choreDescription}>{description.substr(0,60)}...</Text> */}
-                                <Caption styleName='multiline'>{description.substr(0,60)}...</Caption>
-                                {/* <Text>Points: {points}</Text> */}
-                                <Caption>Points: {points}</Caption>
-                            </TouchableOpacity>
-                        </View>
-            
+                <TouchableOpacity onPress = {()=> goToUserProfile()}>
+                    <Image style ={styles.img}
+                    PlaceholderContent={<ActivityIndicator size='small' />}
+                    source={
+                        user.img
+                        ? {uri: user.img}
+                        : {uri: profileImg}
+                    }
+                    />
+                </TouchableOpacity>
+                <View styleName="vertical ">
+                    <TouchableOpacity onPress = {() => goToChore()}>
+                        <Subtitle  >{title.toUpperCase()}</Subtitle>
+                        <Caption styleName='multiline'>{description.substr(0,60)}...</Caption>
+                        <Caption>Points: {points}</Caption>
+                    </TouchableOpacity>
+                </View>
             </Row>
             <Divider styleName="line" />
         </View>
@@ -113,8 +108,8 @@ const styles = StyleSheet.create({
         marginRight: 15,
     }, 
     img: {
-        width: 50,
-        height: 50,
+        width: 69,
+        height: 69,
         borderRadius: 40,
        
     }, 

@@ -38,7 +38,11 @@ export default function ProfileStack(){
             <Stack.Screen
             name = 'account-settings'
             component= {AccountSettings}
-            options = {{title: 'Settings'}}
+            options = {{
+                headerTitle: () => <Text>SETTINGS</Text>,
+                headerBackTitle: () => <Text>PROFILE</Text>,
+
+            }}
             />
         </Stack.Navigator>
     )

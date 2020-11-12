@@ -179,8 +179,8 @@ const RoomieInfo = (props) => {
     const {name, email, admin, img, historical_points, username, sprint_chores } = props.roomie
     return (
             <View>
-                <View >
                 <View styleName='vertical h-center'>
+                <View >
                         <Image style ={styles.img}
                         resizeMode= 'cover'
                         PlaceholderContent = {<ActivityIndicator color = '#fff' />}
@@ -248,9 +248,9 @@ const styles = StyleSheet.create({
         padding:10, 
     }, 
     img: {
-        width: 50,
-        height: 50,
-        borderRadius: 40,
+        width: 90,
+        height: 90,
+        borderRadius: 60,
     }, 
     roomieDescription : {
         padding: 5,
@@ -276,11 +276,6 @@ const styles = StyleSheet.create({
     }, 
     userImage : {
         marginRight: 15,
-    }, 
-    img: {
-        width: 50,
-        height: 50,
-        borderRadius: 40,
     }, 
     choreDescription : {
         padding: 5,

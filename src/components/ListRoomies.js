@@ -93,7 +93,7 @@ const Roomie = (props) => {
                 <TouchableOpacity onPress = {()=> goToUserProfile()}>
                     <Image style ={styles.img}
                     resizeMode= 'cover'
-                    PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                    PlaceholderContent = {<ActivityIndicator size="small" />}
                     source={
                         img
                         ? {uri: img}

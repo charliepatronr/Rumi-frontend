@@ -63,16 +63,15 @@ class HomeSettings extends React.Component {
                  value = (
                     <ImageBackground
                     style = {styles.imgBack}
+                    resizeMode={'stretch'}
                     source={{ uri: this.props.house.img }}
                     >
-                    <Tile>
                       <Overlay>
-                        <Title styleName="md-gutter-bottom"> HOUSE KEY</Title>
+                        <Title styleName="md-gutter-bottom"> HOUSE STARK KEY</Title>
                         <Caption><Icon type="material-community" name="key-variant" size = {30} color ='white'/></Caption>
-                        <Title>1565654651</Title>
+                        <Title>{this.props.house.id}</Title>
                         {/* <Caption>185 Sutter St, San Francisco, CA 94109</Caption> */}
                       </Overlay>
-                    </Tile>
                   </ImageBackground>
                  )
                  this.showModal()
@@ -122,9 +121,9 @@ class HomeSettings extends React.Component {
                             <Icon type="material-community" name="crown" size = {22} />
                         </TouchableOpacity>
                     </View>
-
                     <Image style ={styles.img}
                     PlaceholderContent = {<ActivityIndicator color = '#fff' />}
+                    resizeMode={'stretch'}
                     source={
                         this.props.house.img
                         ? {uri: this.props.house.img}
@@ -194,10 +193,9 @@ const styles =  StyleSheet.create( {
         margin: 5,
     }, 
     img: {
-        width: 100,
-        height: 100,
-        borderRadius: 60,
-        backgroundColor: 'black',
+        width: 110,
+        height: 90,
+        borderRadius: 40,
         marginLeft: 35, 
         marginRight: 25
     },
@@ -207,6 +205,6 @@ const styles =  StyleSheet.create( {
     }, 
     imgBack: {
         width: '100%', 
-        height: 375
+        height: 375, 
     }
 })

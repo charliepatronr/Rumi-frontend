@@ -58,6 +58,7 @@ class Login extends Component {
                     style = {styles.input}
                     onChangeText = {text => this.setState({ username: text})}
                     defaultValue = {this.state.username}
+                    autoCapitalize ={'none'}
                 />
                 <Divider styleName="line" />
                 <TextInput style={styles.text}

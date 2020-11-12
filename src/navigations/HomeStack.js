@@ -29,6 +29,7 @@ export default function HomeFeedStack(){
             component= {HomeFeed}
             options = {{
                 headerTitle: () => <Text>HOME</Text>,
+                headerBackTitle: () => <Text>HOME</Text>,
                 headerRight: () => (
                     <Button
                       onPress={() => goToHomeSettings()}
@@ -42,14 +43,27 @@ export default function HomeFeedStack(){
             <Stack.Screen
             name='chore'
             component={Chore}
+            options = {{
+                headerTitle: () => <Text>CHORE</Text>,
+                headerBackTitle: () => <Text>HOUSE</Text>,
+            }}
             />
             <Stack.Screen 
             name='roomie-profile'
             component={Roomie}
+            options = {{
+                headerTitle: () => <Text>RUMI</Text>,
+                headerBackTitle: () => <Text>HOUSE</Text>,
+            }}
+            
             />
             <Stack.Screen 
             name='home-settings'
             component={HomeSettings}
+            options = {{
+                headerBackTitle: () => <Text>HOUSE</Text>,
+                headerTitle: () => <Text>HOUSE STARK</Text>,
+            }}
             />
         </Stack.Navigator>
     )

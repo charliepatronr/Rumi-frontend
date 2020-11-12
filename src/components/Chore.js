@@ -87,7 +87,7 @@ class Chore extends React.Component {
             this.setState({
                 completionStatus: true
             })
-            });
+        });
      }
 
     render(){

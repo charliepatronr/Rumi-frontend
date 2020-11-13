@@ -168,7 +168,7 @@ const ChoreInfo = (props) => {
         //     <Text style={styles.descriptionChore}>Points: {points}</Text>
         //     {props.completion ?  <Rating style ={styles.rating} imageSize = {20} startingValue ={props.rating}/> : null }
         // </View>
-        <View styleName='horizontal v-center '>
+        <View styleName='horizontal v-center h-center '>
         <Divider styleName="line" />
         <View>
         <Row>

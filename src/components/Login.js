@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { StyleSheet, SafeAreaView, TouchableHighlightBase} from 'react-native';
-import {  TextInput, Text, View, Button, Icon, Overlay, Divider} from '@shoutem/ui';
+import {  TextInput, Text, View, Button, Icon, Overlay, Divider, Image} from '@shoutem/ui';
 import { loginSuccess } from '../actions/auth'
 
 
@@ -52,6 +52,13 @@ class Login extends Component {
     render() {
       return (
         <View style = {styles.container}>
+              <View styleName= 'v-start'>
+                  <Image
+                  styleName= 'medium-portrait'
+                  
+                  source={require('/Users/charliepatron/Development/code/mod-5/rumie/assets/eight.jpg')}
+                  />
+              </View>
              { this.state.error && <Text style={styles.error}>{this.state.error}</Text> }
                 <TextInput maxLength={25}
                     placeholder={'USERNAME'}
@@ -99,6 +106,11 @@ class Login extends Component {
     }, 
     error: {
         color: 'red'
+    },
+    logo: {
+      width: 300, 
+      height: 300,
+
     }
   });
 

@@ -80,6 +80,7 @@ class HomeFeed extends Component {
                 <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                     <Image style ={styles.img}
                     PlaceholderContent = {<ActivityIndicator size="small" />}
+                    resizeMode={'stretch'}
                     source={
                         this.props.houseState.img
                         ? {uri: this.props.houseState.img}
@@ -97,6 +98,7 @@ class HomeFeed extends Component {
                 <View style={styles.main}>
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
+                        resizeMode={'stretch'}
                         PlaceholderContent = {<ActivityIndicator size="small" />}
                         source={
                             this.props.houseState.img
@@ -117,6 +119,7 @@ class HomeFeed extends Component {
                     <TouchableOpacity style={styles.houseImage} onPress = {()=> this.goToHome()}>
                         <Image style ={styles.img}
                         PlaceholderContent = {<ActivityIndicator size="small" />}
+                        resizeMode={'stretch'}
                         source={
                             this.props.houseState.img
                             ? {uri: this.props.houseState.img}

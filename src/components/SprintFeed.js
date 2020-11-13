@@ -101,6 +101,10 @@ class SprintFeed extends Component {
             this.props.end(data)
         })
     }
+    goToHome = () => {
+        console.log('GOING HOME!!!!')
+        
+    }
 
     complete = () => {
         this.setState({

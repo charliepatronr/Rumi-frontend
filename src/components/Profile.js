@@ -210,7 +210,7 @@ class Profile extends React.Component {
                                 {
                                     (fill) => (
                                     <Text>
-                                        {this.completionStatus() }% of Tasks 
+                                        { 0 }% of Tasks 
                                     </Text>
                                     )
                                 } 
